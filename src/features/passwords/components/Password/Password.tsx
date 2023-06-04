@@ -54,16 +54,16 @@ export function Password({ password }: { password: IPassword }) {
 			</section>
 
 			<section className='General w-full flex flex-col mb-5'>
-				<h1 className='font-bold text-xl mb-3 text-zinc-900 dark:text-zinc-500'>General</h1>
+				<h1 className='font-bold text-xl mb-3 text-zinc-900'>General</h1>
 				<div className='w-full flex flex-col justify-center'>
 					{password.updated_at ? (
 						<div className='w-full flex flex-col mb-5'>
-							<p className='text-zinc-900 dark:text-zinc-50'>Last modified on</p>
+							<p className='text-zinc-900'>Last modified on</p>
 							<p>{formatDate(password.updated_at, true, 'en-US')}</p>
 						</div>
 					) : null}
 					<div className='w-full flex flex-col mb-5'>
-						<p className='text-zinc-900 dark:text-zinc-50'>Created on</p>
+						<p className='text-zinc-900'>Created on</p>
 						<p>{formatDate(password.created_at, true, 'en-US')}</p>
 					</div>
 				</div>

@@ -22,7 +22,7 @@ export function UnlockedPassword({ password }: IPasswordProps) {
 	return (
 		<li
 			id={password._id}
-			className='Password w-full mb-8 border-b border-solid border-1 border-zinc-300 dark:border-zinc-800'
+			className='Password w-full mb-8 border-b border-solid border-1 border-zinc-300'
 		>
 			<Link to={`/dashboard/passwords/${password._id}`} state={{ password, from: pathname }}>
 				<div className='flex flex-col'>
@@ -39,14 +39,14 @@ export function UnlockedPassword({ password }: IPasswordProps) {
 										onClick={onDeletePassword}
 									/>
 									<LockOpenIcon
-										className='lock-open w-6 h-6 ml-3 text-zinc-500 dark:text-zinc-50 cursor-pointer'
+										className='lock-open w-6 h-6 ml-3 text-zinc-500 cursor-pointer'
 										onClick={togglePasswordVisibility}
 									/>
 								</div>
 							</>
 						) : (
 							<>
-								<p className='text-zinc-300 dark:text-zinc-700 text-lg font-bold pb-2'>
+								<p className='text-zinc-300 text-lg font-bold pb-2'>
 									**************
 								</p>
 								<div className='flex items-center pb-3'>
@@ -55,7 +55,7 @@ export function UnlockedPassword({ password }: IPasswordProps) {
 										onClick={onDeletePassword}
 									/>
 									<LockClosedIcon
-										className='lock-closed w-6 h-6 ml-3 text-zinc-500 dark:text-zinc-50 cursor-pointer'
+										className='lock-closed w-6 h-6 ml-3 text-zinc-500 cursor-pointer'
 										onClick={togglePasswordVisibility}
 									/>
 								</div>

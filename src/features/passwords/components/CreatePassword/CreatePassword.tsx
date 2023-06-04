@@ -1,55 +1,69 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Button } from '../../../../components/Common'
-import { Input, InputPassword } from '../../../../components/Form'
-import { usePasswords } from '../../store'
-import { createPassword } from '../../api'
-import { toastError } from '../../../../lib/toast'
-import { useAuth } from '../../../auth'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '../../../../components/Common';
+import { Input, InputPassword } from '../../../../components/Form';
+import { usePasswords } from '../../store';
+import { createPassword } from '../../api';
+import { toastError } from '../../../../lib/toast';
+import { useAuth } from '../../../auth';
+import { encryptText } from '../../../auth/services/encryption';
 
 export function CreatePassword() {
-	const { user } = useAuth()
-	const navigate = useNavigate()
-	const { dispatch } = usePasswords()
+	const { user } = useAuth();
+	const navigate = useNavigate();
+	const { dispatch } = usePasswords();
 
 	const [state, setState] = useState<any>({
 		title: '',
 		password: '',
 		error: false,
-		errorMsg: ''
-	})
+		errorMsg: '',
+	});
 
-	const [isLoadingNewPassword, setIsLoadingNewPassword] = useState<boolean>(false)
+	const [isLoadingNewPassword, setIsLoadingNewPassword] = useState<boolean>(false);
 
 	const handleChange = (input: string, event: React.ChangeEvent<HTMLInputElement>) => {
 		setState((state: any) => ({
 			...state,
 			error: false,
 			errorMsg: '',
-			[input]: event.target.value
-		}))
-	}
+			[input]: event.target.value,
+		}));
+	};
 
 	const onCreatePassword = async () => {
-		if (!user) return
-		setIsLoadingNewPassword(true)
-
-		const res = await createPassword(state.title, state.password, user.storage.host)
-
-		if (res.success) {
-			setIsLoadingNewPassword(false)
-			const password = { ...res.password, plaintext: null, visible: false }
-			dispatch({ type: 'create', password })
-			navigate('/dashboard/passwords', { state: 'created' })
+		if (!user) return;
+		setIsLoadingNewPassword(true);
+		const data = await encryptText(state.password, user._id, user.password_key);
+		console.log('encryptText - data:', data);
+		// TODO convert encrypted password arr buffer using formData because it cannot be send
+		// as arraybuffer to server (see: https://stackoverflow.com/questions/48291288/how-to-send-array-buffer-data-along-with-string-json-to-nodejs-server)
+		if (data?.encrypted) {
+			const res = await createPassword(state.title, data.encrypted, data.vector);
+			if (res.success) {
+				setIsLoadingNewPassword(false);
+				const password = { ...res.password, plaintext: null, visible: false };
+				dispatch({ type: 'create', password });
+				navigate('/dashboard/passwords', { state: 'created' });
+			} else {
+				setIsLoadingNewPassword(false);
+				setState((state: any) => ({
+					...state,
+					error: true,
+					errorMsg: res.message || 'An error occurred while creating your password.',
+				}));
+				toastError('An error occurred while creating your password.');
+			}
 		} else {
+			setIsLoadingNewPassword(false);
 			setState((state: any) => ({
 				...state,
 				error: true,
-				errorMsg: res.message
-			}))
-			toastError('An error occurred while creating your password')
+				errorMsg: 'An error occurred while encrypting your password.',
+			}));
+			toastError('An error occurred while encrypting your password.');
 		}
-	}
+	};
 
 	return (
 		<>
@@ -83,5 +97,5 @@ export function CreatePassword() {
 				/>
 			</div>
 		</>
-	)
+	);
 }

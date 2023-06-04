@@ -1,22 +1,11 @@
-export type User = {
-	_id: string
-	email: string
-	storage: UserStorage
-	preferences: UserPreferences
-	created_at: string
+export interface User {
+	_id: string;
+	email: string;
+	password_key: string;
+	preferences: UserPreferences;
+	created_at: string;
 }
 
-export type UserStorage = {
-	use_blockchain: boolean
-	use_ipfs: boolean
-	host: StorageHost
-}
-
-export type UserPreferences = {
-	language: string
-}
-
-export enum StorageHost {
-	ipfs = 'ipfs',
-	blockchain = 'blockchain'
+export interface UserPreferences {
+	language: string;
 }

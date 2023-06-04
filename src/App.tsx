@@ -4,6 +4,7 @@ import { Spinner } from './components/Common'
 import { AuthProvider } from './features/auth'
 import { PasswordsProvider } from './features/passwords'
 import { AppRoutes } from './routes'
+import './assets/styles/index.scss'
 
 export default function App() {
 	return (

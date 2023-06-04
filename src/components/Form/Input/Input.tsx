@@ -4,7 +4,7 @@ import type { IInputProps } from './Input.d'
 import { CheckCircleIcon, ClipboardDocumentIcon } from '@heroicons/react/24/outline'
 
 const defaultClassName =
-	'w-full break-all rounded-md text-lg text-zinc-900 dark:text-zinc-50 bg-transparent focus:outline-none'
+	'w-full break-all rounded-md text-lg text-zinc-900 bg-transparent focus:outline-none'
 
 const errorClassName =
 	defaultClassName.replace('text-zinc-900', 'text-red-600') +
@@ -52,14 +52,14 @@ export function Input(props: IInputProps) {
 			{label ? (
 				<label
 					htmlFor={name}
-					className='w-full mb-3 font-bold text-left text-lg text-zinc-900 dark:text-zinc-50'
+					className='w-full mb-3 font-bold text-left text-lg text-zinc-900'
 				>
 					{label}
 				</label>
 			) : null}
 
 			<div
-				className={`min-h-[96px] w-full relative flex flex-col items-center justify-center p-4 bg-zinc-200 dark:bg-zinc-800 rounded-md ${
+				className={`min-h-[96px] w-full relative flex flex-col items-center justify-center p-4 bg-zinc-200 rounded-md ${
 					label !== null && focused ? 'border-solid border-2 border-green-700' : null
 				}`}
 			>
@@ -96,7 +96,7 @@ export function Input(props: IInputProps) {
 					) : (
 						<ClipboardDocumentIcon
 							onClick={onCopy}
-							className='absolute right-4 h-7 w-7 mt-2 pt-0.5 text-zinc-500 dark:text-zinc-400 cursor-pointer'
+							className='absolute right-4 h-7 w-7 mt-2 pt-0.5 text-zinc-500 cursor-pointer'
 						/>
 					)
 				) : null}

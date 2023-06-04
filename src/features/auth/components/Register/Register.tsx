@@ -1,69 +1,76 @@
-import React, { useRef, useState } from 'react'
-import { useNavigate, redirect, Link } from 'react-router-dom'
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
-import { Button } from '../../../../components/Common/Button'
-import { Input } from '../../../../components/Form/Input'
-import { InputPassword } from '../../../../components/Form/InputPassword'
-import { register } from '../../api'
-import { Spinner } from '../../../../components/Common'
-import { VisiterLayout } from '../../../../components/Layout'
-import { StorageHost, UserPreferences, UserStorage } from '../../api/types.d'
-import { toastError } from '../../../../lib/toast'
+import React, { useRef, useState } from 'react';
+import { useNavigate, redirect, Link } from 'react-router-dom';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import { Button } from '../../../../components/Common/Button';
+import { Input } from '../../../../components/Form/Input';
+import { InputPassword } from '../../../../components/Form/InputPassword';
+import { register } from '../../api';
+import { Spinner } from '../../../../components/Common';
+import { VisiterLayout } from '../../../../components/Layout';
+import { UserPreferences } from '../../api/types.d';
+import { toastError } from '../../../../lib/toast';
+import { createUser } from '../../services/createUser';
+// import { createUserEncryptionKeys } from '../../../../lib/testEncryption';
 
 interface IRegisterState {
-	[key: string]: string | boolean
-	email: string
-	password: string
-	loading: boolean
-	error: boolean
-	errorMsg: string
+	[key: string]: string | boolean;
+	email: string;
+	password: string;
+	loading: boolean;
+	error: boolean;
+	errorMsg: string;
 }
 
 export function Register() {
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	const [state, setState] = useState<IRegisterState>({
 		email: '',
 		password: '',
 		loading: false,
 		error: false,
-		errorMsg: ''
-	})
+		errorMsg: '',
+	});
 
 	const handleChange = (input: string, event: React.ChangeEvent<HTMLInputElement>) => {
-		setState((state) => ({ ...state, error: false, errorMsg: '', [input]: event.target.value }))
-	}
+		setState((state) => ({
+			...state,
+			error: false,
+			errorMsg: '',
+			[input]: event.target.value,
+		}));
+	};
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault()
+		event.preventDefault();
 
-		setState((state) => ({ ...state, loading: true }))
-
-		const storage: UserStorage = {
-			use_blockchain: true,
-			use_ipfs: false,
-			host: StorageHost.blockchain
-		}
+		setState((state) => ({ ...state, loading: true }));
 
 		const preferences: UserPreferences = {
-			language: 'en'
-		}
+			language: 'en',
+		};
 
-		const res = await register(state.email, state.password, storage, preferences)
+		// const { derivedPasswordKey, encryptionKey } = await createUserEncryptionKeys(state.password);
+		// if (derivedPasswordKey && encryptionKey) {
 
-		if (res.success) {
-			setState((state) => ({ ...state, loading: false }))
-			navigate('/auth/login', { state: 'account_created' })
+		// }
+
+		// const res = await register(state.email, state.password, preferences);
+		const res = await createUser(state.email, state.password, preferences);
+
+		if (res?.success) {
+			setState((state) => ({ ...state, loading: false }));
+			navigate('/auth/login', { state: 'account_created' });
 		} else {
 			setState((state) => ({
 				...state,
 				loading: false,
 				error: true,
-				errorMsg: res.message ? res.message : ''
-			}))
-			toastError('An error occurred while creating your account')
+				errorMsg: res?.message ? res.message : '',
+			}));
+			toastError('An error occurred while creating your account');
 		}
-	}
+	};
 
 	return (
 		<VisiterLayout title='Create Account'>
@@ -108,5 +115,5 @@ export function Register() {
 				/>
 			</form>
 		</VisiterLayout>
-	)
+	);
 }

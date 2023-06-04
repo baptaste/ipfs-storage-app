@@ -3,6 +3,6 @@ export const clipboardCopy = (value: string): Promise<void> => {
 		navigator.clipboard
 			.writeText(value)
 			.then(() => resolve())
-			.catch((err) => reject(err))
-	})
-}
+			.catch((err) => reject(err));
+	});
+};

@@ -16,7 +16,7 @@ export function PasswordLink({ password, onClick = () => {} }: IPasswordLinkProp
 		<li
 			id={password._id}
 			onClick={onClick}
-			className='PasswordLink w-full mb-8 border-b border-solid border-1 border-zinc-300 dark:border-zinc-800'
+			className='PasswordLink w-full mb-8 border-b border-solid border-1 border-zinc-300'
 		>
 			<Link
 				to={`/dashboard/passwords/${password._id}`}
@@ -40,7 +40,7 @@ export function PasswordLink({ password, onClick = () => {} }: IPasswordLinkProp
 				</div>
 
 				<div className='flex items-center'>
-					<ArrowRightIcon className='w-6 h-6 text-zinc-500 dark:text-zinc-300' />
+					<ArrowRightIcon className='w-6 h-6 text-zinc-500' />
 				</div>
 			</Link>
 		</li>

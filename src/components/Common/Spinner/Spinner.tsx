@@ -11,12 +11,12 @@ export function Spinner({ size = 'medium' }: { size?: Size }) {
 		<div
 			role='status'
 			className={`Spinner flex justify-center items-center ${
-				size === 'screen' ? 'w-full h-screen bg-zinc-50 dark:bg-zinc-900' : null
+				size === 'screen' ? 'w-full h-screen bg-zinc-50' : null
 			}`}
 		>
 			<svg
 				aria-hidden='true'
-				className={`${renderedSize} text-zinc-500 animate-spin border-none dark:text-zinc-500 fill-slate-50`}
+				className={`${renderedSize} text-zinc-500 animate-spin border-none fill-slate-50`}
 				viewBox='0 0 100 101'
 				fill='none'
 				xmlns='http://www.w3.org/2000/svg'

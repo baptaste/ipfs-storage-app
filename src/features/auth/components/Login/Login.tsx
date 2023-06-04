@@ -1,77 +1,91 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useNavigate, redirect, Link, useLocation } from 'react-router-dom'
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
-import { Button } from '../../../../components/Common/Button'
-import { Input } from '../../../../components/Form/Input'
-import { InputPassword } from '../../../../components/Form/InputPassword'
-import { login } from '../../api'
-import { Spinner } from '../../../../components/Common'
-import { VisiterLayout } from '../../../../components/Layout'
-import { setHeaderToken } from '../../../../lib/axios'
-import { toastSuccess } from '../../../../lib/toast'
-import { useAuth } from '../../store'
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate, redirect, Link, useLocation } from 'react-router-dom';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import { Button } from '../../../../components/Common/Button';
+import { Input } from '../../../../components/Form/Input';
+import { InputPassword } from '../../../../components/Form/InputPassword';
+import { login } from '../../api';
+import { Spinner } from '../../../../components/Common';
+import { VisiterLayout } from '../../../../components/Layout';
+import { setHeaderToken } from '../../../../lib/axios';
+import { toastError, toastSuccess } from '../../../../lib/toast';
+import { useAuth } from '../../store';
+import { pbkdf2Verify } from '../../../../lib/crypto';
+import { verifyMasterPassword } from '../../services/masterPassword';
+import { getMasterPasswordHash } from '../../api/masterPassword';
+import { loginUser } from '../../services/loginUser';
 
 interface ILoginState {
-	[key: string]: string | boolean
-	email: string
-	password: string
-	loading: boolean
-	error: boolean
-	errorMsg: string
+	[key: string]: string | boolean;
+	email: string;
+	password: string;
+	loading: boolean;
+	error: boolean;
+	errorMsg: string;
 }
 
 export function Login() {
-	const { setAccessToken, setUser } = useAuth()
-	const navigate = useNavigate()
-	const location = useLocation()
+	const { setAccessToken, setUser, setEncryptionKey } = useAuth();
+	//const navigate = useNavigate();
+	const location = useLocation();
 
 	const [state, setState] = useState<ILoginState>({
 		email: '',
 		password: '',
 		loading: false,
 		error: false,
-		errorMsg: ''
-	})
+		errorMsg: '',
+	});
 
 	const handleChange = (input: string, event: React.ChangeEvent<HTMLInputElement>) => {
-		setState((state) => ({ ...state, error: false, errorMsg: '', [input]: event.target.value }))
-	}
+		setState((state) => ({
+			...state,
+			error: false,
+			errorMsg: '',
+			[input]: event.target.value,
+		}));
+	};
 
-	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault()
+	const onSubmitLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
 
-		setState((state) => ({ ...state, loading: true }))
+		setState((state) => ({ ...state, loading: true }));
 
-		const res = await login(state.email, state.password)
+		const res = await loginUser(state.email, state.password);
+		console.log('Login - res:', res);
 
-		console.log('Login - res:', res)
-
-		if (res.success && res.accessToken) {
-			setState((state) => ({ ...state, loading: false }))
-			setAccessToken(res.accessToken)
-			setHeaderToken(res.accessToken)
-			setUser(res.user)
-			// navigate('/')
-		} else {
-			setState((state) => ({
-				...state,
-				loading: false,
-				error: true,
-				errorMsg: res.message ? res.message : ''
-			}))
+		if (!res?.success) {
+			toastError('An error occurred while loggin your account');
+			return setState((prev) => {
+				return {
+					...prev,
+					loading: false,
+					error: true,
+					errorMsg: res?.message || 'Invalid credentials.',
+				};
+			});
 		}
-	}
+
+		if (res.accessToken && res.user && res.encryptionKey) {
+			setState((state) => ({ ...state, loading: false }));
+			setAccessToken(res.accessToken);
+			setHeaderToken(res.accessToken);
+			setUser(res.user);
+			setEncryptionKey(res.encryptionKey);
+			// navigate('/')
+		}
+	};
 
 	// Notify user whenever account update is triggered
 	useEffect(() => {
 		if (location.state !== null) {
 			if (location.state === 'account_created') {
-				toastSuccess('Account created successfully. Thanks for registering !')
+				toastSuccess('Account created successfully. Thanks for registering !');
 			} else if (location.state === 'account_deleted') {
-				toastSuccess('Your account has been deleted successfully.')
+				toastSuccess('Your account has been deleted successfully.');
 			}
 		}
-	}, [location.state])
+	}, [location.state]);
 
 	return (
 		<VisiterLayout title='Log in'>
@@ -85,7 +99,7 @@ export function Login() {
 			</div>
 
 			<form
-				onSubmit={handleSubmit}
+				onSubmit={onSubmitLogin}
 				className='w-full my-4 flex flex-col items-center justify-evenly'
 			>
 				{state.errorMsg?.length ? (
@@ -118,5 +132,5 @@ export function Login() {
 				/>
 			</form>
 		</VisiterLayout>
-	)
+	);
 }

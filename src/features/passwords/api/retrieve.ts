@@ -1,10 +1,13 @@
-import httpClient from '../../../lib/axios'
+import httpClient from '../../../lib/axios';
 
 export type RetrievePasswordResponse = {
-	success: boolean
-	decrypted?: string
-	message?: string
-}
+	success: boolean;
+	data?: {
+		encrypted: Uint8Array;
+		vector: Uint8Array;
+	};
+	message?: string;
+};
 
 export function retrievePassword(encryptionId: string): Promise<RetrievePasswordResponse> {
 	return new Promise((resolve, reject) => {
@@ -13,15 +16,36 @@ export function retrievePassword(encryptionId: string): Promise<RetrievePassword
 				'/passwords/retrieve',
 				{ encryptionId },
 				{
-					withCredentials: true
-				}
+					withCredentials: true,
+				},
 			)
 			.then((res) => {
-				resolve(res.data)
+				console.log(
+					'retrievePassword res',
+					res.data.data.encrypted,
+					'typeof',
+					typeof res.data.data.encrypted,
+				);
+				console.log(
+					'retrievePassword res',
+					res.data.data.vector,
+					'typeof',
+					typeof res.data.data.vector,
+				);
+				resolve(res.data);
+				// resolve({
+				// 	...res.data,
+				// 	encrypted: new Uint8Array(
+				// 		Object.values(res.data.data.encrypted).map((value) => value),
+				// 	),
+				// 	vector: new Uint8Array(
+				// 		Object.values(res.data.data.vector).map((value) => value),
+				// 	),
+				// });
 			})
 			.catch((err) => {
-				console.log('api - retrievePassword, catch err:', err)
-				return reject(err)
-			})
-	})
+				console.log('api - retrievePassword, catch err:', err);
+				reject(err);
+			});
+	});
 }

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { CustomLink } from '../../components/Common'
+import { AppLink } from '../../components/Common'
 import { VisiterLayout } from '../../components/Layout'
 
 export function Landing() {
@@ -14,11 +14,10 @@ export function Landing() {
 					solution
 				</h1>
 				<p className='text-lg leading-relaxed text-zinc-400'>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-					incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-					nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat.
 				</p>
-				<CustomLink path='/auth/login' text='Store data now' theme={'secondary'} />
+				<AppLink path='/auth/login' text='Store data now' />
 			</div>
 		</VisiterLayout>
 	)

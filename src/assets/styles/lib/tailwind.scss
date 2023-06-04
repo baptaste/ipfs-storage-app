@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import './colors.scss';
+
+@font-face {
+	font-family: 'Philosopher';
+	src: url('https://fonts.googleapis.com/css2?family=Philosopher:wght@700&display=swap');
+}
+
+@layer utilities {
+	.neon-blur {
+		text-shadow: 0 0 64px rgb(192 219 255 / 48%), 0 0 16px rgb(65 120 255 / 24%);
+		color: $colorBlack;
+		font-family: 'Philosopher';
+	}
+}

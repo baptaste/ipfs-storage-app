@@ -4,14 +4,10 @@ import { SlideSwitch } from '../../../../components/Common'
 import { toastSuccess } from '../../../../lib/toast'
 import { capitalize } from '../../../../utils/string'
 import { DeleteAccount, Logout, useAuth } from '../../../auth'
-import { StorageHost } from '../../../auth/api/types.d'
 
 export function Settings() {
 	const { user } = useAuth()
 	const location = useLocation()
-	const [storageHost, setStorageHost] = useState<StorageHost | undefined>(
-		user ? user.storage.host : undefined
-	)
 
 	useEffect(() => {
 		if (location.state !== null && location.state === 'password_updated') {
@@ -19,21 +15,15 @@ export function Settings() {
 		}
 	}, [location.state])
 
-	// useEffect(() => {
-	// 	//TODO patch user with storageHost new value
-	// }, [storageHost])
-
 	return (
 		<main className='Settings w-full flex flex-col justify-between'>
 			{user ? (
 				<>
-					<section
+					{/* <section
 						id='storage'
-						className='w-full flex flex-col mb-10 border-b border-solid border-1 border-zinc-300 dark:border-zinc-800'
+						className='w-full flex flex-col mb-10 border-b border-solid border-1 border-zinc-300'
 					>
-						<h1 className='font-bold text-xl mb-3 text-zinc-900 dark:text-zinc-500'>
-							Storage
-						</h1>
+						<h1 className='font-bold text-xl mb-3 text-zinc-900'>Storage</h1>
 						<div className='mb-5'>
 							<SlideSwitch
 								selected={storageHost ? capitalize(storageHost) : undefined}
@@ -42,23 +32,16 @@ export function Settings() {
 								onChange={(v) => setStorageHost(v as StorageHost)}
 							/>
 						</div>
-					</section>
-					<section
-						id='preferences'
-						className='w-full flex flex-col mb-10 border-b border-solid border-1 border-zinc-300 dark:border-zinc-800'
-					>
-						<h1 className='font-bold text-xl mb-3 text-zinc-900 dark:text-zinc-500'>
-							Preferences
-						</h1>
+					</section> */}
+					<section id='preferences' className='w-full flex flex-col mb-10 border-b border-solid border-1 border-zinc-300'>
+						<h1 className='font-bold text-xl mb-3 text-zinc-900'>Preferences</h1>
 						<div className='w-full flex flex-col mb-5'>
 							<p className='text-lg'>Language</p>
 							<p className='text-md'>{capitalize(user.preferences.language)}</p>
 						</div>
 					</section>
 					<section id='account' className='w-full flex flex-col mb-5'>
-						<h1 className='font-bold text-xl mb-3 text-zinc-900 dark:text-zinc-500'>
-							Account
-						</h1>
+						<h1 className='font-bold text-xl mb-3 text-zinc-900'>Account</h1>
 						<div className='w-full flex flex-col mb-5'>
 							<p className='text-lg'>Email</p>
 							<p className='text-md'>{user.email}</p>

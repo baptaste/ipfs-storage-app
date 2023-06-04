@@ -1,57 +1,74 @@
-import { useEffect, useMemo, useState, ReactNode } from 'react'
-import { AuthContext } from './context'
-import { getAccessToken } from '../api'
-import type { User } from '../api/types'
-import { setHeaderToken } from '../../../lib/axios'
-import { toastError } from '../../../lib/toast'
+import * as React from 'react';
+import { AuthContext } from './context';
+import { getAccessToken } from '../api';
+import type { User } from '../api/types';
+import { setHeaderToken } from '../../../lib/axios';
+import { toastError } from '../../../lib/toast';
+import { retrieveUserEncryptionKey } from '../services/encryption';
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-	const [accessToken, setAccessToken] = useState<string | null>(null)
-	const [user, setUser] = useState<User | null>(null)
-	const [error, setError] = useState<any>(null)
-	const [loading, setLoading] = useState<boolean>(false)
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+	const [accessToken, setAccessToken] = React.useState<string | null>(null);
+	const [user, setUser] = React.useState<User | null>(null);
+	const [encryptionKey, setEncryptionKey] = React.useState<CryptoKey | undefined>(undefined);
+	const [error, setError] = React.useState<any>(null);
+	const [loading, setLoading] = React.useState<boolean>(false);
 
-	useEffect(() => {
-		setLoading(true)
+	React.useEffect(() => {
+		setLoading(true);
 
 		getAccessToken()
 			.then((res) => {
-				setLoading(false)
-				console.log('AuthProvider - getAccessToken, res.user:', res.user)
-				console.log('AuthProvider - getAccessToken, res.accessToken:', res.accessToken)
+				setLoading(false);
+				console.log('AuthProvider - getAccessToken, res.user:', res.user);
+				console.log('AuthProvider - getAccessToken, res.accessToken:', res.accessToken);
 				if (res.success && res.user && res.accessToken) {
-					setAccessToken(res.accessToken)
-					setHeaderToken(res.accessToken)
-					setUser(res.user)
+					setAccessToken(res.accessToken);
+					setHeaderToken(res.accessToken);
+					setUser(res.user);
+					retrieveUserEncryptionKey(res.user._id, res.user.password_key)
+						.then((key) => setEncryptionKey(key))
+						.catch((err) => console.error(err));
 				} else {
-					setError(res.message)
-					toastError('Error')
+					setError(res.message);
+					toastError('Error');
 				}
 			})
 			.catch((err) => {
-				console.error('getAccessToken err:', err)
-				setLoading(false)
-				setError(err)
-			})
+				console.error('getAccessToken err:', err);
+				setLoading(false);
+				setError(err);
+			});
 
 		return () => {
-			setAccessToken(null)
-			setUser(null)
-			setError(null)
-			setLoading(false)
-		}
-	}, [])
+			setAccessToken(null);
+			setUser(null);
+			setEncryptionKey(undefined);
+			setError(null);
+			setLoading(false);
+		};
+	}, []);
 
-	useEffect(() => {
+	React.useEffect(() => {
 		if (accessToken) {
-			setHeaderToken(accessToken)
+			setHeaderToken(accessToken);
 		}
-	}, [accessToken])
+	}, [accessToken]);
 
-	const authValue = useMemo(() => {
-		const loggedIn = accessToken !== null && user !== null
-		return { accessToken, setAccessToken, loggedIn, user, setUser, error, loading }
-	}, [accessToken, user, error, loading])
+	const authProviderValue = React.useMemo(() => {
+		const loggedIn = accessToken !== null && user !== null && encryptionKey !== undefined;
+		const valueObj = {
+			accessToken,
+			setAccessToken,
+			loggedIn,
+			user,
+			setUser,
+			encryptionKey,
+			setEncryptionKey,
+			error,
+			loading,
+		};
+		return valueObj;
+	}, [accessToken, user, encryptionKey, error, loading]);
 
-	return <AuthContext.Provider value={authValue}>{children}</AuthContext.Provider>
+	return <AuthContext.Provider value={authProviderValue}>{children}</AuthContext.Provider>;
 }

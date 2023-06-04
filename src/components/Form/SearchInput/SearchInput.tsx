@@ -30,7 +30,7 @@ export function SearchInput({
 
 	return (
 		<div
-			className={`SearchInput w-full flex flex-col items-center justify-center p-4 mb-4 bg-zinc-200 dark:bg-zinc-800 rounded-md ${
+			className={`SearchInput w-full flex flex-col items-center justify-center p-4 mb-4 bg-zinc-200 rounded-md ${
 				focused ? 'border-solid border-2 border-green-700' : null
 			}`}
 		>
@@ -42,9 +42,9 @@ export function SearchInput({
 					onFocus={handleFocus}
 					onBlur={handleBlur}
 					placeholder={placeholder}
-					className='h-fit w-full pr-4 break-all rounded-md text-lg text-zinc-900 dark:text-zinc-50 bg-transparent focus:outline-none'
+					className='h-fit w-full pr-4 break-all rounded-md text-lg text-zinc-900 bg-transparent focus:outline-none'
 				/>
-				<MagnifyingGlassIcon className='w-7 h-7 text-zinc-500 dark:text-zinc-400' />
+				<MagnifyingGlassIcon className='w-7 h-7 text-zinc-500' />
 			</div>
 		</div>
 	)

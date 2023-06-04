@@ -1,5 +1,5 @@
 import { useState, useMemo, useDeferredValue, useEffect } from 'react'
-import { CustomLink, EmptyFeature, Spinner } from '../../../../components/Common'
+import { EmptyFeature, Spinner } from '../../../../components/Common'
 import { usePasswords } from '../../store'
 import { PasswordLink } from '../PasswordLink'
 import type { IPassword, IPasswords } from '../../types.d'
@@ -60,9 +60,7 @@ export function PasswordList() {
 	const searchList: IPasswords = useMemo(() => {
 		if (!searchValue.length) return []
 		let result = [...passwords]
-		result = result
-			.filter((password) => password.title.toLowerCase().includes(deferredSearchValue))
-			.filter((item, i) => (i < 5 ? item : null))
+		result = result.filter((password) => password.title.toLowerCase().includes(deferredSearchValue)).filter((item, i) => (i < 5 ? item : null))
 		return result
 	}, [passwords, deferredSearchValue])
 
@@ -99,15 +97,7 @@ export function PasswordList() {
 
 	return (
 		<main className='PasswordList w-full flex flex-col justify-center items-center'>
-			{passwords.length > 1 ? (
-				<SearchInput
-					value={searchValue}
-					onChange={handleSearchValueChange}
-					onFocus={() => setSearchFocused(true)}
-					onBlur={() => setSearchFocused(false)}
-					placeholder={`Search among ${passwords.length} items`}
-				/>
-			) : null}
+			{passwords.length > 1 ? <SearchInput value={searchValue} onChange={handleSearchValueChange} onFocus={() => setSearchFocused(true)} onBlur={() => setSearchFocused(false)} placeholder={`Search among ${passwords.length} items`} /> : null}
 
 			{suggestionList !== null && suggestionList.length && suggestionListVisible ? (
 				<section className='SuggestionList w-full flex flex-col mt-4'>
@@ -127,11 +117,7 @@ export function PasswordList() {
 					</p>
 					<ul className='w-full flex flex-col items-center'>
 						{searchList.map((password) => (
-							<PasswordLink
-								key={password._id}
-								password={password}
-								onClick={() => addFoundPasswordToLocalStorage(password)}
-							/>
+							<PasswordLink key={password._id} password={password} onClick={() => addFoundPasswordToLocalStorage(password)} />
 						))}
 					</ul>
 				</section>
@@ -139,20 +125,14 @@ export function PasswordList() {
 
 			<section className='Datelist w-full flex flex-col mt-4'>
 				{filterSort === 'latest' ? (
-					<p
-						onClick={() => setFilterSort('oldest')}
-						className='flex items-center mb-4 text-lg text-zinc-500 dark:text-zinc-400 cursor-pointer'
-					>
+					<p onClick={() => setFilterSort('oldest')} className='flex items-center mb-4 text-lg text-zinc-500 cursor-pointer'>
 						Latest
-						<ChevronUpIcon className='w-6 h-6 ml-2 text-zinc-500 dark:text-zinc-400' />
+						<ChevronUpIcon className='w-6 h-6 ml-2 text-zinc-500' />
 					</p>
 				) : (
-					<p
-						onClick={() => setFilterSort('latest')}
-						className='flex items-center mb-4 text-lg text-zinc-500 dark:text-zinc-400 cursor-pointer'
-					>
+					<p onClick={() => setFilterSort('latest')} className='flex items-center mb-4 text-lg text-zinc-500 cursor-pointer'>
 						Oldest
-						<ChevronDownIcon className='w-6 h-6 ml-2 text-zinc-500 dark:text-zinc-400' />
+						<ChevronDownIcon className='w-6 h-6 ml-2 text-zinc-500' />
 					</p>
 				)}
 
@@ -168,9 +148,7 @@ export function PasswordList() {
 					{alphanumericList.map((passwordList, i) => {
 						return (
 							<div key={i} className='w-full'>
-								<p className='mb-4 rounded-md py-2 px-4 text-lg text-zinc-500 dark:text-zinc-400 bg-zinc-200 dark:bg-zinc-800'>
-									{passwordList[0].title.slice(0, 1).toUpperCase()}
-								</p>
+								<p className='mb-4 rounded-md py-2 px-4 text-lg text-zinc-500 bg-zinc-200'>{passwordList[0].title.slice(0, 1).toUpperCase()}</p>
 								{passwordList.map((password) => (
 									<PasswordLink key={password._id} password={password} />
 								))}
@@ -179,14 +157,6 @@ export function PasswordList() {
 					})}
 				</ul>
 			</section>
-
-			{/* <div className='w-full fixed bottom-20 px-4 mb-5'>
-				<CustomLink
-					path='/dashboard/passwords/create'
-					text='Create password'
-					theme='secondary'
-				/>
-			</div> */}
 		</main>
 	)
 }

@@ -11,7 +11,7 @@ export function PasswordListRoute() {
 			title='Passwords'
 			headerRightIcon={
 				<Link to='/dashboard/passwords/create'>
-					<PlusSmallIcon className='w-8 h-8 text-zinc-900 dark:text-zinc-50' />
+					<PlusSmallIcon className='w-8 h-8 text-zinc-900' />
 				</Link>
 			}
 		>

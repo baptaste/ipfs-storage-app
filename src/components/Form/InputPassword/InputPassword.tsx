@@ -3,7 +3,7 @@ import { useState } from 'react'
 import type { IInputPasswordProps } from './InputPassword.d'
 
 const defaultClassName =
-	'w-full pr-12 break-all rounded-md text-lg text-zinc-900 dark:text-zinc-50 bg-transparent focus:outline-none'
+	'w-full pr-12 break-all rounded-md text-lg text-zinc-900 bg-transparent focus:outline-none'
 
 const errorClassName =
 	defaultClassName.replace('text-zinc-900', 'text-red-600') +
@@ -49,14 +49,14 @@ export function InputPassword(props: IInputPasswordProps) {
 			{label ? (
 				<label
 					htmlFor={name}
-					className='w-full mb-3 font-bold text-left text-lg text-zinc-900 dark:text-zinc-50'
+					className='w-full mb-3 font-bold text-left text-lg text-zinc-900'
 				>
 					{label}
 				</label>
 			) : null}
 
 			<div
-				className={`min-h-[96px] w-full relative flex flex-col items-center justify-center p-4 bg-zinc-200 dark:bg-zinc-800 rounded-md ${
+				className={`min-h-[96px] w-full relative flex flex-col items-center justify-center p-4 bg-zinc-200 rounded-md ${
 					label !== null && focused ? 'border-solid border-2 border-green-700' : ''
 				}`.trim()}
 			>
@@ -86,12 +86,12 @@ export function InputPassword(props: IInputPasswordProps) {
 
 				{visible ? (
 					<EyeSlashIcon
-						className='h-7 w-7 text-zinc-500 dark:text-zinc-400 cursor-pointer absolute right-4'
+						className='h-7 w-7 text-zinc-500 cursor-pointer absolute right-4'
 						onClick={() => setVisible(false)}
 					/>
 				) : (
 					<EyeIcon
-						className='h-7 w-7 text-zinc-500 dark:text-zinc-400 cursor-pointer absolute right-4'
+						className='h-7 w-7 text-zinc-500 cursor-pointer absolute right-4'
 						onClick={() => setVisible(true)}
 					/>
 				)}
