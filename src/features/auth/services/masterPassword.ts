@@ -1,4 +1,4 @@
-import { pbkdf2Hash, pbkdf2Verify } from '../../../lib/crypto';
+import { pbkdf2Hash, pbkdf2Verify } from '../../../utils/crypto';
 
 export async function hashMasterPassword(password: string) {
 	try {
@@ -14,6 +14,6 @@ export async function verifyMasterPassword(password: string, hash: string) {
 		const verified = await pbkdf2Verify(password, hash);
 		return verified;
 	} catch (err) {
-		console.error('hashMasterPassword hash error:', err);
+		console.error('verifyMasterPassword error:', err);
 	}
 }

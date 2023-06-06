@@ -4,7 +4,7 @@ import { getAccessToken } from '../api';
 import type { User } from '../api/types';
 import { setHeaderToken } from '../../../lib/axios';
 import { toastError } from '../../../lib/toast';
-import { retrieveUserEncryptionKey } from '../services/encryption';
+import { retrieveUserEncryptionKey } from '../../../utils/encryption';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const [accessToken, setAccessToken] = React.useState<string | null>(null);

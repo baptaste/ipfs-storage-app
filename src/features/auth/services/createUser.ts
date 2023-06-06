@@ -1,5 +1,5 @@
-import { generateEncryptionKey, pbkdf2Hash } from '../../../lib/crypto';
-import { addItem, createUserObjectStore } from '../../../lib/indexedDB';
+import { generateEncryptionKey, pbkdf2Hash } from '../../../utils/crypto';
+import { addItem, createUserObjectStore } from '../../../utils/indexedDB';
 import { register } from '../api';
 import { UserPreferences } from '../api/types';
 

@@ -1,17 +1,6 @@
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
-import { useState } from 'react'
-import type { IInputPasswordProps } from './InputPassword.d'
-
-const defaultClassName =
-	'w-full pr-12 break-all rounded-md text-lg text-zinc-900 bg-transparent focus:outline-none'
-
-const errorClassName =
-	defaultClassName.replace('text-zinc-900', 'text-red-600') +
-	' border-solid border-2 border-red-500'
-
-const validatedClassName =
-	defaultClassName.replace('text-zinc-900', 'text-green-600') +
-	' border-solid border-2 border-green-500'
+import * as React from 'react';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import type { IInputPasswordProps } from './InputPassword.d';
 
 export function InputPassword(props: IInputPasswordProps) {
 	const {
@@ -20,30 +9,34 @@ export function InputPassword(props: IInputPasswordProps) {
 		value = '',
 		label = null,
 		name = type,
-		error = false,
+		error = undefined,
 		validated = false,
 		disabled = false,
 		required = false,
 		onClick,
-		onChange
-	} = props
+		onChange,
+	} = props;
 
-	const [focused, setFocused] = useState<boolean>(false)
+	const [visible, setVisible] = React.useState(false);
+	const [focused, setFocused] = React.useState(false);
 
-	const getClassName = () => {
-		if (error) return errorClassName
-		if (validated) return validatedClassName
-		return defaultClassName
-	}
+	const getBorderColor = () => {
+		if (focused) return 'border-zinc-500';
+		if (error) return 'border-red-500';
+		if (validated) return 'border-green-500';
+		return 'border-transparent';
+	};
 
-	const inputClassName = getClassName()
-
-	const [visible, setVisible] = useState<boolean>(false)
+	const getInputColor = () => {
+		if (error) return 'text-red-600';
+		if (validated) return 'text-green-600';
+		return 'text-zinc-900';
+	};
 
 	return (
 		<div
 			className={`InputPassword w-full flex flex-col items-stretch justify-between mb-5 rounded-md ${
-				label === null && focused ? 'border-solid border-2 border-green-700' : ''
+				!label ? 'border-solid border-2 ' + getBorderColor() : ''
 			}`.trim()}
 		>
 			{label ? (
@@ -51,13 +44,13 @@ export function InputPassword(props: IInputPasswordProps) {
 					htmlFor={name}
 					className='w-full mb-3 font-bold text-left text-lg text-zinc-900'
 				>
-					{label}
+					{label} {required ? '*' : null}
 				</label>
 			) : null}
 
 			<div
 				className={`min-h-[96px] w-full relative flex flex-col items-center justify-center p-4 bg-zinc-200 rounded-md ${
-					label !== null && focused ? 'border-solid border-2 border-green-700' : ''
+					label ? 'border-solid border-2 ' + getBorderColor() : ''
 				}`.trim()}
 			>
 				{label === null ? (
@@ -66,7 +59,7 @@ export function InputPassword(props: IInputPasswordProps) {
 							value.length ? 'visible' : 'invisible'
 						}`}
 					>
-						{placeholder}
+						{placeholder} {required ? '*' : null}
 					</p>
 				) : null}
 
@@ -75,7 +68,7 @@ export function InputPassword(props: IInputPasswordProps) {
 					value={value}
 					name={name}
 					placeholder={placeholder}
-					className={inputClassName}
+					className={`w-full pr-12 break-all rounded-md text-lg ${getInputColor()} bg-transparent focus:outline-none`}
 					disabled={disabled}
 					required={required}
 					onClick={onClick}
@@ -96,6 +89,7 @@ export function InputPassword(props: IInputPasswordProps) {
 					/>
 				)}
 			</div>
+			{error ? <p className='w-full text-red-500 text-sm pt-2'>{error}</p> : null}
 		</div>
-	)
+	);
 }

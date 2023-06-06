@@ -1,9 +1,5 @@
-import {
-	encryptWithEncryptionKey,
-	decryptWithEncryptionKey,
-	getEncryptionKey,
-} from '../../../lib/crypto';
-import { getItem } from '../../../lib/indexedDB';
+import { encryptWithEncryptionKey, decryptWithEncryptionKey, getEncryptionKey } from './crypto';
+import { getItem } from './indexedDB';
 
 export async function retrieveUserEncryptionKey(userId: string, passwordKey: string) {
 	try {

@@ -11,9 +11,9 @@ import {
 	EyeSlashIcon,
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../../../auth';
-import { decryptWithEncryptionKey, getEncryptionKey } from '../../../../lib/crypto';
-import { getItem } from '../../../../lib/indexedDB';
-import { decryptText } from '../../../auth/services/encryption';
+import { decryptWithEncryptionKey, getEncryptionKey } from '../../../../utils/crypto';
+import { getItem } from '../../../../utils/indexedDB';
+import { decryptText } from '../../../../utils/encryption';
 import { toastError } from '../../../../lib/toast';
 import { uint8ArrayToArrayBuffer } from '../../../../utils/bytes';
 

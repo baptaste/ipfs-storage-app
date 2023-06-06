@@ -9,25 +9,29 @@ export type CreatePasswordResponse = {
 };
 
 export function createPassword(
-	title: string,
 	encryptedPassword: ArrayBuffer,
 	encryptionVector: Uint8Array,
+	title?: string,
+	websiteUrl?: string,
 ): Promise<CreatePasswordResponse> {
-	console.log('createPassword - encryptedPassword', encryptedPassword);
+	console.log(
+		'createPassword - encryptedPassword',
+		encryptedPassword,
+		'vector',
+		encryptionVector,
+	);
+	let data: any = {
+		password: arrayBufferToUint8Array(encryptedPassword),
+		vector: encryptionVector,
+	};
+	if (title) data.title = title;
+	if (websiteUrl) data.websiteUrl = websiteUrl;
 
 	return new Promise((resolve, reject) => {
 		httpClient
-			.post(
-				'/passwords/create',
-				{
-					title,
-					password: arrayBufferToUint8Array(encryptedPassword),
-					vector: encryptionVector,
-				},
-				{
-					withCredentials: true,
-				},
-			)
+			.post('/passwords/create', data, {
+				withCredentials: true,
+			})
 			.then((res) => {
 				resolve(res.data);
 			})

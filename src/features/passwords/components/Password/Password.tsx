@@ -1,55 +1,60 @@
-import { useEffect, useState } from 'react'
-import { DangerZone } from '../../../../components/Common'
-import { usePasswords } from '../../store'
-import { formatDate } from '../../../../utils/date'
-import { deletePassword } from '../../api'
-import type { IPassword } from '../../types.d'
-import { Input } from '../../../../components/Form'
-import { DecryptablePassword } from '../DecryptablePassword'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { toastError, toastSuccess } from '../../../../lib/toast'
-import { useAuth } from '../../../auth'
+import { useEffect, useState } from 'react';
+import { DangerZone } from '../../../../components/Common';
+import { usePasswords } from '../../store';
+import { formatDate } from '../../../../utils/date';
+import { deletePassword } from '../../api';
+import type { IPassword } from '../../types.d';
+import { Input } from '../../../../components/Form';
+import { DecryptablePassword } from '../DecryptablePassword';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { toastError, toastSuccess } from '../../../../lib/toast';
+import { useAuth } from '../../../auth';
 
 export function Password({ password }: { password: IPassword }) {
-	const location = useLocation()
-	const navigate = useNavigate()
-	const { dispatch } = usePasswords()
-	const { user } = useAuth()
+	const location = useLocation();
+	const navigate = useNavigate();
+	const { dispatch } = usePasswords();
+	const { user } = useAuth();
 
-	const [loading, setLoading] = useState<boolean>(false)
-	const [error, setError] = useState<string>('')
+	const [loading, setLoading] = useState<boolean>(false);
+	const [error, setError] = useState<string>('');
 
 	const onDeletePassword = async () => {
-		if (!password || !user) return
+		if (!password || !user) return;
 
-		setLoading(true)
+		setLoading(true);
 
-		const res = await deletePassword(password.encryption_id)
+		const res = await deletePassword(password.encryption_id);
 
 		if (res.success && res.deleted) {
-			setLoading(false)
-			dispatch({ type: 'delete', passwordId: password._id })
-			navigate('/dashboard/passwords', { state: 'deleted' })
+			setLoading(false);
+			dispatch({ type: 'delete', passwordId: password._id });
+			navigate('/dashboard/passwords', { state: 'deleted' });
 		} else {
-			setLoading(false)
-			setError(res.message ? res.message : '')
-			toastError('An error occurred while deleting your password')
+			setLoading(false);
+			setError(res.message ? res.message : '');
+			toastError('An error occurred while deleting your password');
 		}
-	}
+	};
 
 	// Notify user whenever password update is triggered
 	useEffect(() => {
 		if (location.state !== null && location.state === 'updated') {
-			toastSuccess('Password updated successfully !')
+			toastSuccess('Password updated successfully !');
 		}
-	}, [location.state])
+	}, [location.state]);
 
 	return (
 		<main className='Password w-full flex flex-col justify-between'>
 			{error ? <p className='text-red-500'>{error}</p> : null}
 
 			<section className='Password w-full flex flex-col mb-5'>
-				<Input value={password.title} placeholder='Title' disabled copyable />
+				<Input
+					value={password.title || password.website_url}
+					placeholder='Title'
+					disabled
+					copyable
+				/>
 				<DecryptablePassword password={password} />
 			</section>
 
@@ -77,5 +82,5 @@ export function Password({ password }: { password: IPassword }) {
 				onConfirm={onDeletePassword}
 			/>
 		</main>
-	)
+	);
 }

@@ -275,9 +275,9 @@ export async function decryptWithEncryptionKey(
 			data.encrypted,
 		);
 		const decryptedtDataString = new TextDecoder().decode(decryptedDataBuffer);
-		console.log('decryptWithEncryptionKey - decryptedtDataString', decryptedtDataString);
-
-		return decryptedtDataString;
+		// because result is being treated as a string literal
+		// it is always starting and ending with double quotes
+		return decryptedtDataString.replace(/^"|"$/g, ''); // removes the double quotes at the beginning (^") and end ("$)
 	} catch (err) {
 		console.error('decryptWithEncryptionKey err:', err);
 	}

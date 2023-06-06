@@ -12,7 +12,8 @@ import {
 	encryptWithEncryptionKey,
 	generateEncryptionKey,
 	getEncryptionKey,
-} from '../../../lib/crypto';
+} from '../../../utils/crypto';
+import { scrapeFavicon } from '../../../utils/favicons';
 // import { updateView } from '../../../utils/browser';
 
 // const PasswordList = lazyImport('../features/passwords', 'PasswordList')
@@ -20,9 +21,34 @@ import {
 export function Dashboard() {
 	const { user } = useAuth();
 	const navigate = useNavigate();
+	const [faviconUrl, setFaviconUrl] = React.useState<string | null>(null);
+
+	// React.useEffect(() => {
+	// 	// Usage example
+	// 	const url = 'https://www.dev.to';
+	// 	scrapeFavicon(url)
+	// 		.then((resUrl) => {
+	// 			if (resUrl) {
+	// 				console.log('Favicon URL:', resUrl);
+	// 				setFaviconUrl(resUrl);
+	// 			} else {
+	// 				console.log('Favicon not found for', url);
+	// 			}
+	// 		})
+	// 		.catch((error) => {
+	// 			console.error('Error:', error);
+	// 		});
+	// }, []);
 
 	return (
 		<>
+			{/* <img src={'https://www.google.com/s2/favicons?domain=https://www.n.com/&sz=64'} />
+			<img src={'https://www.google.com/s2/favicons?domain=https://www.amazon.com/&sz=64'} /> */}
+			{/* {faviconUrl ? (
+				<img
+					src={'https://www.google.com/s2/favicons?domain=https://www.amazon.com/&sz=64'}
+				/>
+			) : null} */}
 			{/* {decryptedData ? (
 				<h1 className='text-xl text-red-500 text-bold'>{decryptedData}</h1>
 			) : null} */}

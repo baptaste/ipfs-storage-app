@@ -3,9 +3,11 @@ export interface IPassword {
 	owner_id: string;
 	encryption_id: string;
 	ipfs: IpfsDataType;
-	title: string;
+	title?: string;
 	plaintext: string | null;
 	visible: boolean;
+	website_url?: string;
+	image_url?: string;
 	created_at: string;
 	updated_at?: string;
 }
@@ -18,7 +20,14 @@ export interface IpfsDataType {
 
 export type IPasswords = IPassword[];
 
-export type DispatchActionType = 'passwords' | 'loading' | 'error' | 'retrieve' | 'visibility' | 'delete' | 'create';
+export type DispatchActionType =
+	| 'passwords'
+	| 'loading'
+	| 'error'
+	| 'retrieve'
+	| 'visibility'
+	| 'delete'
+	| 'create';
 
 export interface IPasswordsState {
 	passwords: IPasswords;

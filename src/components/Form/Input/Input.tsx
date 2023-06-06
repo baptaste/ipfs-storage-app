@@ -1,18 +1,7 @@
-import { useState } from 'react'
-import { useClipboard } from '../../../hooks/useClipboard'
-import type { IInputProps } from './Input.d'
-import { CheckCircleIcon, ClipboardDocumentIcon } from '@heroicons/react/24/outline'
-
-const defaultClassName =
-	'w-full break-all rounded-md text-lg text-zinc-900 bg-transparent focus:outline-none'
-
-const errorClassName =
-	defaultClassName.replace('text-zinc-900', 'text-red-600') +
-	' border-solid border-2 border-red-500'
-
-const validatedClassName =
-	defaultClassName.replace('text-zinc-900', 'text-green-600') +
-	' border-solid border-2 border-green-500'
+import * as React from 'react';
+import { useClipboard } from '../../../hooks/useClipboard';
+import type { IInputProps } from './Input.d';
+import { CheckCircleIcon, ClipboardDocumentIcon } from '@heroicons/react/24/outline';
 
 export function Input(props: IInputProps) {
 	const {
@@ -21,47 +10,54 @@ export function Input(props: IInputProps) {
 		value = '',
 		label = null,
 		name = type,
-		error = false,
+		error = undefined,
 		validated = false,
 		disabled = false,
 		required = false,
 		copyable = false,
 		onClick,
-		onChange
-	} = props
+		onChange,
+	} = props;
 
-	const [focused, setFocused] = useState<boolean>(false)
-	const { copied, copy } = useClipboard()
+	const [focused, setFocused] = React.useState(false);
+	const { copied, copy } = useClipboard();
 
-	const getClassName = () => {
-		if (error) return errorClassName
-		if (validated) return validatedClassName
-		if (copyable && disabled) return defaultClassName.concat(' pt-2 pr-12 text-ellipsis')
-		return defaultClassName
-	}
+	const getBorderColor = () => {
+		if (focused) return 'border-zinc-500';
+		if (error) return 'border-red-500';
+		if (validated) return 'border-green-500';
+		return 'border-transparent';
+	};
 
-	const inputClassName = getClassName()
-	const onCopy = async () => await copy(value)
+	const getInputColor = () => {
+		if (error) return 'text-red-600';
+		if (validated) return 'text-green-600';
+		return 'text-zinc-900';
+	};
+
+	const onCopy = async () => {
+		await copy(value);
+	};
 
 	return (
 		<div
 			className={`Input w-full flex flex-col items-stretch justify-between mb-5 rounded-md ${
-				label === null && focused ? 'border-solid border-2 border-green-700' : null
-			}`}
+				!label ? 'border-solid border-2 ' + getBorderColor() : ''
+			}`.trim()}
 		>
 			{label ? (
 				<label
 					htmlFor={name}
 					className='w-full mb-3 font-bold text-left text-lg text-zinc-900'
 				>
-					{label}
+					{label} {required ? '*' : null}
 				</label>
 			) : null}
 
 			<div
 				className={`min-h-[96px] w-full relative flex flex-col items-center justify-center p-4 bg-zinc-200 rounded-md ${
-					label !== null && focused ? 'border-solid border-2 border-green-700' : null
-				}`}
+					label ? 'border-solid border-2 ' + getBorderColor() : ''
+				}`.trim()}
 			>
 				{label === null ? (
 					<p
@@ -69,7 +65,7 @@ export function Input(props: IInputProps) {
 							value.length ? 'visible' : 'invisible'
 						}`}
 					>
-						{placeholder}
+						{placeholder} {required ? '*' : null}
 					</p>
 				) : null}
 
@@ -78,7 +74,9 @@ export function Input(props: IInputProps) {
 					value={value}
 					name={name}
 					placeholder={placeholder}
-					className={inputClassName}
+					className={`w-full break-all rounded-md text-lg ${getInputColor()} bg-transparent focus:outline-none ${
+						copyable && disabled ? ' pt-2 pr-12 text-ellipsis' : ''
+					}`.trim()}
 					disabled={disabled}
 					required={required}
 					onClick={onClick}
@@ -101,6 +99,7 @@ export function Input(props: IInputProps) {
 					)
 				) : null}
 			</div>
+			{error ? <p className='w-full text-red-500 text-sm pt-2'>{error}</p> : null}
 		</div>
-	)
+	);
 }

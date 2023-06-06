@@ -1,16 +1,16 @@
-import { Link, useLocation } from 'react-router-dom'
-import { ArrowRightIcon } from '@heroicons/react/24/outline'
-import type { IPassword } from '../../types.d'
-import { formatDate } from '../../../../utils/date'
-import { PasswordIcon } from '../../../../components/Common'
+import { Link, useLocation } from 'react-router-dom';
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
+import type { IPassword } from '../../types.d';
+import { formatDate } from '../../../../utils/date';
+import { PasswordIcon } from '../../../../components/Common';
 
 interface IPasswordLinkProps {
-	password: IPassword
-	onClick?: () => void
+	password: IPassword;
+	onClick?: () => void;
 }
 
 export function PasswordLink({ password, onClick = () => {} }: IPasswordLinkProps) {
-	const { pathname } = useLocation()
+	const { pathname } = useLocation();
 
 	return (
 		<li
@@ -24,9 +24,23 @@ export function PasswordLink({ password, onClick = () => {} }: IPasswordLinkProp
 				className='flex items-center justify-between pb-2'
 			>
 				<div className='flex items-center justify-center'>
-					<PasswordIcon open={password.plaintext !== null} size='small' showThemeStatus />
+					{password.image_url ? (
+						<img
+							src={password.image_url}
+							className={`w-9 h-9 flex items-center justify-center`}
+						/>
+					) : (
+						<PasswordIcon
+							open={password.plaintext !== null}
+							size='small'
+							showThemeStatus
+						/>
+					)}
+
 					<div className='w-full flex flex-col ml-4'>
-						<p className='text-lg font-bold'>{password.title}</p>
+						<p className='text-lg font-bold'>
+							{password.title || password.website_url}
+						</p>
 						{password.updated_at ? (
 							<span className='text-sm text-zinc-500'>
 								Modified on {formatDate(password.updated_at, false, 'en-US')}
@@ -44,5 +58,5 @@ export function PasswordLink({ password, onClick = () => {} }: IPasswordLinkProp
 				</div>
 			</Link>
 		</li>
-	)
+	);
 }

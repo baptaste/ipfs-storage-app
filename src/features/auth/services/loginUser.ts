@@ -1,6 +1,6 @@
 import { login, LoginResponse } from '../api';
 import { getMasterPasswordHash } from '../api/masterPassword';
-import { retrieveUserEncryptionKey } from './encryption';
+import { retrieveUserEncryptionKey } from '../../../utils/encryption';
 import { verifyMasterPassword } from './masterPassword';
 
 export interface LoginResult extends LoginResponse {

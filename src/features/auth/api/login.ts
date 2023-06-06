@@ -1,5 +1,5 @@
 import httpClient from '../../../lib/axios';
-import { pbkdf2Verify } from '../../../lib/crypto';
+import { pbkdf2Verify } from '../../../utils/crypto';
 import type { User } from './types.d';
 
 export type LoginResponse = {

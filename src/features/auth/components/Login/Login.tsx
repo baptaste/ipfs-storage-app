@@ -10,7 +10,7 @@ import { VisiterLayout } from '../../../../components/Layout';
 import { setHeaderToken } from '../../../../lib/axios';
 import { toastError, toastSuccess } from '../../../../lib/toast';
 import { useAuth } from '../../store';
-import { pbkdf2Verify } from '../../../../lib/crypto';
+import { pbkdf2Verify } from '../../../../utils/crypto';
 import { verifyMasterPassword } from '../../services/masterPassword';
 import { getMasterPasswordHash } from '../../api/masterPassword';
 import { loginUser } from '../../services/loginUser';
