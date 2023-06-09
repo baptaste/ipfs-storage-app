@@ -2,6 +2,7 @@ import { useEffect, useMemo, ReactNode, useReducer } from 'react';
 import { useAuth } from '../../auth';
 import { fetchPasswords } from '../api';
 import { IPassword } from '../types';
+import { getPasswordsWithUtilityProps } from '../utils/password';
 import { PasswordsContext } from './context';
 import { initialPasswordsState, passwordsReducer } from './reducer';
 
@@ -18,11 +19,7 @@ export function PasswordsProvider({ children }: { children: ReactNode }) {
 			fetchPasswords()
 				.then((res) => {
 					if (res.success && res.passwords) {
-						const passwords = JSON.parse(JSON.stringify(res.passwords)).map(
-							(password: IPassword) => {
-								return { ...password, plaintext: null, visible: false };
-							},
-						);
+						const passwords = getPasswordsWithUtilityProps(res.passwords);
 						console.log('PasswordsProvider - res.passwords', res.passwords);
 						dispatch({ type: 'passwords', passwords });
 					}
