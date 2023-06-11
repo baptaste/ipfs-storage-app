@@ -1,0 +1,17 @@
+@tailwind utilities;
+
+$width-sidebar: 245px;
+$padding-desktop: 40px;
+$padding-mobile: 96px 16px 80px;
+
+@layer utilities {
+	.width-sidebar {
+		width: $width-sidebar;
+	}
+	.padding-desktop {
+		padding: $padding-desktop;
+	}
+	.padding-mobile {
+		padding: $padding-mobile;
+	}
+}

@@ -1,9 +1,9 @@
-import { PencilSquareIcon } from '@heroicons/react/24/solid'
+import { PencilSquareIcon } from "@heroicons/react/24/solid";
 
 interface IEditIconProps {
-	onClick?: () => void
+	onClick?: () => void;
 }
 
 export function EditIcon({ onClick = () => {} }: IEditIconProps) {
-	return <PencilSquareIcon className='w-7 h-7 text-zinc-500' onClick={onClick} />
+	return <PencilSquareIcon className="w-7 h-7 text-slate-500" onClick={onClick} />;
 }

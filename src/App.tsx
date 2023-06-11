@@ -1,21 +1,22 @@
-import { BrowserRouter as Router } from 'react-router-dom'
-import { Suspense } from 'react'
-import { Spinner } from './components/Common'
-import { AuthProvider } from './features/auth'
-import { PasswordsProvider } from './features/passwords'
-import { AppRoutes } from './routes'
-import './assets/styles/index.scss'
+import * as React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+
+import { Spinner } from "./components/Common";
+import { AppRoutes } from "./routes";
+import { FeaturesProvider } from "./features/store";
+
+import "./assets/styles/index.scss";
 
 export default function App() {
 	return (
-		<AuthProvider>
-			<PasswordsProvider>
+		<div className="App">
+			<FeaturesProvider>
 				<Router>
-					<Suspense fallback={<Spinner size='screen' />}>
+					<React.Suspense fallback={<Spinner size="screen" />}>
 						<AppRoutes />
-					</Suspense>
+					</React.Suspense>
 				</Router>
-			</PasswordsProvider>
-		</AuthProvider>
-	)
+			</FeaturesProvider>
+		</div>
+	);
 }
