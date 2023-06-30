@@ -30,7 +30,7 @@ export function Button(props: IButtonProps) {
 	const getTheme = () => ButtonThemes[disabled ? "disabled" : theme];
 	const buttonTheme = getTheme();
 
-	let className = `w-full md:w-[260px] flex items-center justify-center text-center p-3 my-4 font-bold text-lg rounded-md drop-shadow-md cursor-pointer border-solid border-2 ${buttonTheme}`;
+	let className = `w-full flex items-center justify-center text-center p-3 font-bold text-lg rounded-md drop-shadow-md cursor-pointer border-solid border-2 ${buttonTheme}`;
 
 	if (marginHorizontalAuto) className += " mx-auto";
 	if (widthFull) className = className.replace("md:w-[260px]", "").replace(/\s/, "");

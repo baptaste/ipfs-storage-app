@@ -1,23 +1,25 @@
-import { Link, Outlet } from "react-router-dom";
+import * as React from "react";
+import { Outlet } from "react-router-dom";
 import { lazyImport } from "../../../../utils/imports";
-import { MainLayout } from "../../../../components/Layout";
-import { PlusSmallIcon } from "@heroicons/react/24/outline";
+import { FeatureNames, initialFeature, useManager } from "../../../store";
+import { FeaturesRoutes } from "../../../routes";
 
 const PasswordList = lazyImport("../features/src/passwords", "PasswordList");
 
 export function PasswordListRoute() {
-	// return (
-	// 	<MainLayout
-	// 		title='Passwords'
-	// 		headerRightIcon={
-	// 			<Link to='/dashboard/passwords/create'>
-	// 				<PlusSmallIcon className='w-8 h-8 text-slate-900' />
-	// 			</Link>
-	// 		}
-	// 	>
-	// 		<PasswordList />
-	// 	</MainLayout>
-	// )
+	const manager = useManager();
+
+	React.useEffect(() => {
+		manager.dispatch({
+			type: "set_feature",
+			feature: {
+				...initialFeature,
+				name: FeatureNames.passwords,
+				route: FeaturesRoutes.passwords,
+			},
+		});
+	}, []);
+
 	return (
 		<>
 			<PasswordList />

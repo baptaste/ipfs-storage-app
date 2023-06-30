@@ -4,10 +4,10 @@ import { AuthProvider } from "../src/auth";
 import { AuthContext } from "../src/auth/store/context";
 import { PasswordsContext, PasswordsProvider } from "../src/passwords";
 
-const featuresContext = {
-	auth: AuthContext,
-	passwords: PasswordsContext,
-};
+// const ManagerContext = {
+// 	auth: AuthContext,
+// 	passwords: PasswordsContext,
+// };
 
 export enum FeatureNames {
 	auth = "auth",
@@ -17,29 +17,48 @@ export enum FeatureNames {
 }
 
 export interface IFeature {
-	name: FeatureNames;
-	route: FeaturesRoutes;
+	creating: boolean;
+	itemId: string | null;
+	name: FeatureNames | null;
+	route: FeaturesRoutes | null;
+	updating: boolean;
 }
 
-export interface IFeaturesContext {
-	feature: IFeature | null;
-	loading: boolean;
-	error: any;
-	dispatch: (action: any) => void;
+export interface INotification {
+	status: "success" | "error";
+	content: string;
 }
 
-export interface IFeaturesState {
-	feature: IFeature | null;
-	loading: false;
-	error: null;
-}
-
-export const initialFeaturesState: IFeaturesState = {
-	feature: null,
-	loading: false,
-	error: null,
+export const initialFeature: IFeature = {
+	creating: false,
+	itemId: null,
+	name: null,
+	route: null,
+	updating: false,
 };
 
-export const FeaturesContext = createContext<IFeaturesContext>({} as IFeaturesContext);
+export interface IManagerContext {
+	dispatch: (action: any) => void;
+	error: null;
+	feature: IFeature;
+	loading: boolean;
+	notification?: INotification;
+}
 
-export const useFeatures = () => useContext(FeaturesContext);
+export interface IManagerState {
+	error: null;
+	feature: IFeature;
+	loading: boolean;
+	notification?: INotification;
+}
+
+export const initialManagerState: IManagerState = {
+	error: null,
+	feature: initialFeature,
+	loading: false,
+	notification: undefined,
+};
+
+export const ManagerContext = createContext<IManagerContext>({} as IManagerContext);
+
+export const useManager = () => useContext(ManagerContext);

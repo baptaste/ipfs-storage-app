@@ -14,20 +14,6 @@ const ChangePasswordRoute = lazyImport("../features/src/settings", "ChangePasswo
 function ProtectedRoutes() {
 	return (
 		<Routes>
-			{/* Initials dashboard's routes */}
-			{/* <Route path='dashboard'>
-				<Route index element={<DashboardRoute />} />
-				<Route path='passwords'>
-					<Route index element={<PasswordListRoute />} />
-					<Route path='create' element={<CreatePasswordRoute />} />
-					<Route path=':passwordId'>
-						<Route index element={<PasswordRoute />} />
-						<Route path='update' element={<UpdatePasswordRoute />} />
-					</Route>
-				</Route>
-			</Route> */}
-
-			{/* TEST dashboard's routes */}
 			<Route path="dashboard" element={<DashboardRoute />}>
 				{/* Passwords feature */}
 				<Route path="passwords" element={<PasswordListRoute />}>

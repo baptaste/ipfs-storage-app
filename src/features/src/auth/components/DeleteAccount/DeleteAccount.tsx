@@ -33,7 +33,7 @@ export function DeleteAccount() {
 	return (
 		<>
 			{error.length ? (
-				<p className="w-full text-center text-red-500 text-md my-4">{error}</p>
+				<p className="w-full text-center text-red-500 text-base my-4">{error}</p>
 			) : null}
 
 			<DangerZone

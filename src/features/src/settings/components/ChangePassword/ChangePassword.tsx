@@ -46,7 +46,7 @@ export function ChangePassword() {
 	return (
 		<>
 			{state.error.length ? (
-				<p className="w-full text-center text-red-500 text-md mb-4">{state.error}</p>
+				<p className="w-full text-center text-red-500 text-base mb-4">{state.error}</p>
 			) : null}
 
 			<div className="w-full h-full flex flex-col items-center justify-between">

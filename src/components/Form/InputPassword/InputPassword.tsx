@@ -35,7 +35,7 @@ export function InputPassword(props: IInputPasswordProps) {
 
 	return (
 		<div
-			className={`InputPassword w-full flex flex-col items-stretch justify-between mb-5 rounded-md ${
+			className={`InputPassword w-full flex flex-col items-stretch justify-between rounded-md ${
 				!label ? "border-solid border-2 " + getBorderColor() : ""
 			}`.trim()}
 		>
@@ -55,7 +55,7 @@ export function InputPassword(props: IInputPasswordProps) {
 			>
 				{label === null ? (
 					<p
-						className={`w-fit absolute left-4 top-4 text-md text-slate-400 ${
+						className={`w-fit absolute left-4 top-4 text-base text-slate-400 ${
 							value.length ? "visible" : "invisible"
 						}`}
 					>

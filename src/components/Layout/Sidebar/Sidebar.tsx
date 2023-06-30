@@ -8,15 +8,16 @@ interface SidebarProps {
 
 export function Sidebar(props: SidebarProps) {
 	const { children } = props;
-	const location = useLocation();
+	// const location = useLocation();
 
 	return (
-		<div
-			className={`${hideOnInaccurateRoutePath(
-				"/dashboard",
-			)} md:block w-full md:width-sidebar h-screen fixed left-0 top-0 px-4 py-12 overflow-y-scroll bg-slate-900`}
+		<section
+			className={`hidden md:block w-full md:width-sidebar h-screen fixed left-0 top-0 bottom-0 px-6 pt-6 pb-12 overflow-y-scroll bg-slate-900`}
 		>
-			{children}
-		</div>
+			<div className="h-full flex flex-col justify-between">
+				<h1 className="text-lg text-slate-300 pb-6">PinBook</h1>
+				{children}
+			</div>
+		</section>
 	);
 }

@@ -6,7 +6,7 @@ export function Landing() {
 	return (
 		<VisiterLayout title="Web3 storage app">
 			<div className="Landing w-full h-full flex flex-col items-center justify-center">
-				<h1 className="text-slate-900 dark:neon-blur w-full text-5xl font-bold mb-5">
+				<h1 className="text-center text-slate-900 dark:neon-blur w-full text-5xl font-bold mb-5">
 					Decentralized
 					<br />
 					storage

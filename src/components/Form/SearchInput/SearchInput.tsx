@@ -30,7 +30,7 @@ export function SearchInput({
 
 	return (
 		<div
-			className={`SearchInput w-full flex flex-col items-center justify-center p-4 mb-4 bg-slate-200 rounded-md ${
+			className={`SearchInput w-full flex flex-col items-center justify-center p-4 bg-slate-200 rounded-md ${
 				focused ? "border-solid border-2 border-green-700" : null
 			}`}
 		>

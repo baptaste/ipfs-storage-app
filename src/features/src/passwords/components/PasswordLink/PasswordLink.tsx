@@ -4,6 +4,7 @@ import type { IPassword } from "../../types";
 import { formatDate } from "../../../../../utils/date";
 import { PasswordIcon } from "../../../../../components/Common";
 import { usePasswords } from "../../store";
+import { useManager } from "../../../../store";
 
 interface IPasswordLinkProps {
 	password: IPassword;
@@ -24,7 +25,7 @@ export function PasswordLink({ password, onClick = () => {} }: IPasswordLinkProp
 		<li
 			id={password._id}
 			onClick={onPasswordLinkClick}
-			className={`PasswordLink w-full px-6 py-2 mb-8 border-b border-solid border-1 border-slate-300 ${
+			className={`PasswordLink w-full px-6 py-2 border-b border-solid border-1 border-slate-300 ${
 				selected ? "bg-slate-200" : ""
 			}`}
 		>
@@ -48,7 +49,7 @@ export function PasswordLink({ password, onClick = () => {} }: IPasswordLinkProp
 					)}
 
 					<div className="w-full flex flex-col ml-4">
-						<p className="text-lg font-bold">{password.displayed_name}</p>
+						<p className="text-base font-bold">{password.displayed_name}</p>
 						{password.updated_at ? (
 							<span className="text-sm text-slate-500">
 								Modified on {formatDate(password.updated_at, false, "en-US")}

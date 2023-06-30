@@ -6,85 +6,125 @@ import { useAuth } from "../../../features/src/auth";
 import { updateView } from "../../../utils/viewTransition";
 import { isMobile } from "../../../utils/browser";
 import { FeaturesRoutes } from "../../../features/routes";
+import { FeatureNames, initialFeature, useManager } from "../../../features/store";
+import { EditIcon } from "../../Common";
+import { capitalize } from "../../../utils/string";
 
-interface HeaderNavProps {
-	title?: string;
-	rightIcon?: React.ReactNode;
-}
-
-export function HeaderNav(props: HeaderNavProps) {
-	const { title, rightIcon } = props;
+export function HeaderNav() {
 	const navigate = useNavigate();
-	const location = useLocation();
 	const goBack = () => navigate(-1);
+	const location = useLocation();
 	const { loggedIn } = useAuth();
+	const manager = useManager();
 
-	// option numero 1 : via props title passé a MainLayout (propre mais revoir completement l'UI avec les Outlet)
-	// CURRENT option numero 2 : via l'obj location => nom de l'item mis dans location.state (pas ouf mais devrait marcher)
-	// option numero 3 : créér un FeaturesProvider (feature courante, item courant) (+ chiant)
-	function getCurrentPageName() {
-		if (title) return title;
-		if (location.state !== null && location.state.pageName) {
-			return location.state.pageName;
+	// Reset manager states on location path changes
+	React.useEffect(() => {
+		// Reset feature
+		if (manager.feature.route && location.pathname === FeaturesRoutes.dashboard) {
+			manager.dispatch({ type: "set_feature", feature: initialFeature });
 		}
-		switch (location.pathname) {
-			case FeaturesRoutes.login:
-				return "Login";
-			case FeaturesRoutes.register:
-				return "Register";
-			case FeaturesRoutes.dashboard:
-				return "Dashboard";
-			case FeaturesRoutes.passwords:
-				return "Passwords";
-			case FeaturesRoutes.settings:
-				return "Settings";
-			default:
-				return "Ipfs Storage App";
+		// Reset feature item id
+		if (
+			manager.feature.itemId &&
+			manager.feature.route != null &&
+			location.pathname === manager.feature.route
+		) {
+			manager.dispatch({ type: "set_feature_item_id", itemId: null });
 		}
-	}
+		// Reset feature creating status
+		if (manager.feature.creating && !location.pathname.includes("create")) {
+			manager.dispatch({ type: "set_is_creating_item", creating: false });
+		}
+		// Reset feature updating status
+		if (manager.feature.updating && !location.pathname.includes("update")) {
+			manager.dispatch({ type: "set_is_updating_item", updating: false });
+		}
+	}, [manager.feature, location.pathname]);
 
-	const pageName = getCurrentPageName();
+	const getHeaderTitle = () => {
+		const title = manager.feature.name || FeatureNames.dashboard;
+		return capitalize(title);
+	};
 
 	const leftIcon = React.useMemo(() => {
 		if (!loggedIn) {
 			return (
-				<Link to="/" className="justify-start absolute left-4">
+				<Link to="/" className="justify-start absolute left-6">
 					<RocketLaunchIcon className="w-8 h-8 text-slate-900 color-primary" />
 				</Link>
 			);
 		}
-
 		if (location.pathname !== FeaturesRoutes.dashboard) {
+			const { route } = manager.feature;
+			const isOnFeatureRootPage = route != null && location.pathname === route;
 			return (
 				<button
-					className="GoBack justify-start absolute left-4"
+					className="GoBack justify-start absolute left-6"
 					onClick={() => {
-						if (!isMobile()) {
-							goBack();
-							return;
+						if (isOnFeatureRootPage) {
+							// Navigate to dashboard since user is on root feature page
+							navigate(FeaturesRoutes.dashboard);
+						} else {
+							// Navigate to previous page since user is either on item, creation or update pages
+							if (!isMobile()) return goBack();
+							updateView("old", goBack);
 						}
-						updateView("old", goBack);
 					}}
 				>
 					<ArrowLeftIcon className="w-6 h-6 text-slate-500" />
 				</button>
 			);
 		}
-
 		return null;
-	}, [loggedIn, location.pathname]);
+	}, [loggedIn, location.pathname, manager.feature]);
+
+	const rightIcon = React.useMemo(() => {
+		if (!loggedIn) {
+			return (
+				<Link to="/" className="justify-start absolute left-6">
+					<RocketLaunchIcon className="w-8 h-8 text-slate-900 color-primary" />
+				</Link>
+			);
+		}
+		if (
+			location.pathname !== FeaturesRoutes.dashboard &&
+			location.pathname.includes(FeaturesRoutes.dashboard) &&
+			manager.feature.route != null
+		) {
+			const createIcon = <PlusSmallIcon className="w-8 h-8 text-slate-900" />;
+			const updateIcon = <EditIcon />;
+			let icon = null;
+			let path = "";
+			if (manager.feature.itemId == null) {
+				if (!manager.feature.creating) {
+					icon = createIcon;
+					path = `${manager.feature.route}/create`;
+				}
+			} else {
+				if (!manager.feature.updating) {
+					icon = updateIcon;
+					path = `${manager.feature.route}/${manager.feature.itemId}/update`;
+				}
+			}
+			return (
+				<Link to={path} className="absolute right-6">
+					{icon}
+				</Link>
+			);
+		}
+		return null;
+	}, [loggedIn, location.pathname, manager.feature]);
 
 	return (
-		<header className="HeaderNav fixed top-0 left-0 md:left-[245px] w-full md:w-[calc(100%-245px)] w-screen h-16 z-50 flex items-center justify-center p-4 border-b border-solid border-1 border-slate-300 bg-slate-50 text-slate-900">
+		<nav
+			role="navigation"
+			className={`HeaderNav fixed top-0 left-0 ${
+				loggedIn ? "md:left-[245px] md:w-[calc(100%-245px)]" : "w-full"
+			} w-screen h-16 z-50 flex items-center justify-center px-6 py-4 border-b border-solid border-1 border-slate-300 bg-slate-50 text-slate-900`.trim()}
+		>
 			{leftIcon}
-			<p
-				className={`flex-1 ${
-					location.pathname !== "/dashboard" ? "text-center" : ""
-				} text-lg font-bold`}
-			>
-				{pageName}
-			</p>
-			{rightIcon ? <div className="absolute right-4">{rightIcon}</div> : null}
-		</header>
+			<p className="flex-1 text-center text-lg font-bold">{getHeaderTitle()}</p>
+			{rightIcon}
+		</nav>
 	);
 }

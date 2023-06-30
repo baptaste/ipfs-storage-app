@@ -9,12 +9,14 @@ import { DecryptablePassword } from "../DecryptablePassword";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toastError, toastSuccess } from "../../../../../lib/toast";
 import { useAuth } from "../../../auth";
+import { useManager } from "../../../../store";
 
 export function Password({ password }: { password: IPassword }) {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { dispatch } = usePasswords();
 	const { user } = useAuth();
+	const manager = useManager();
 
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [error, setError] = React.useState<string>("");
@@ -46,70 +48,53 @@ export function Password({ password }: { password: IPassword }) {
 		return new URL(url).href;
 	};
 
-	// Notify user whenever password update is triggered
-	React.useEffect(() => {
-		console.log("•••••• Password component, item", password);
-
-		if (location.state !== null && location.state === "updated") {
-			toastSuccess("Password updated successfully !");
-		}
-	}, [location.state]);
+	if (manager.feature.updating) {
+		return <></>;
+	}
 
 	return (
-		<main className="Password w-full overflow-y-scroll flex flex-col justify-between md:justify-normal">
+		<main className="Password w-full md:w-1/2 flex flex-col justify-between gap-6 md:justify-normal md:pt-[90px] md:px-6">
 			{error ? <p className="text-red-500">{error}</p> : null}
 
-			<section className="Password w-full flex items-center gap-6 mb-12 px-8 pb-8 border-b border-solid border-1 border-slate-300">
+			<section className="w-full flex items-center gap-6 mb-6 pb-8 border-b border-solid border-1 border-slate-300">
 				{password.image_url ? (
 					<img src={password.image_url} />
 				) : (
-					<PasswordIcon open={password.plaintext !== null} size="small" showThemeStatus />
+					<PasswordIcon active={password.plaintext !== null} size="small" />
 				)}
 				<h1 className="text-2xl text-slate-900">{password.displayed_name}</h1>
 			</section>
 
 			{password.website_url ? (
-				<div className="w-full flex items-center mb-6">
-					<p className="w-24 text-md font-bold">Website</p>
-					<a target="_blank" href={getWebsiteURL()} className="text-md">
+				<div className="w-full flex items-center">
+					<p className="w-24 text-base font-bold">Website</p>
+					<a target="_blank" href={getWebsiteURL()} className="text-base">
 						{password.website_url}
 					</a>
 				</div>
 			) : null}
 
-			<div className="w-full flex items-center mb-6">
-				<p className="w-24 text-md font-bold">Name</p>
-				<p className="text-md">{password.displayed_name}</p>
+			<div className="w-full flex items-center">
+				<p className="w-24 text-base font-bold">Name</p>
+				<p className="text-base">{password.displayed_name}</p>
 			</div>
 
-			<div className="w-full flex flex-col gap-4 mb-6">
-				<p className="text-md font-bold">Password</p>
+			<div className="w-full flex flex-col gap-4">
+				<p className="text-base font-bold">Password</p>
 				<DecryptablePassword password={password} />
 			</div>
 
-			{/* <section className="Password w-full flex flex-col mb-5">
-				<Input value={password.displayed_name} placeholder="Name" disabled copyable />
-				<DecryptablePassword password={password} />
-			</section>
+			<div className="w-full flex items-center">
+				<p className="w-24 text-base font-bold">Created on</p>
+				<p className="text-base">{formatDate(password.created_at, true, "en-US")}</p>
+			</div>
 
-
-
-			<section className="General w-full flex flex-col mb-5">
-				<h1 className="font-bold text-xl mb-3 text-slate-900">General</h1>
-				<div className="w-full flex flex-col justify-center">
-					{password.updated_at ? (
-						<div className="w-full flex flex-col mb-5">
-							<p className="text-slate-900">Last modified on</p>
-							<p>{formatDate(password.updated_at, true, "en-US")}</p>
-						</div>
-					) : null}
-					<div className="w-full flex flex-col mb-5">
-						<p className="text-slate-900">Created on</p>
-						<p>{formatDate(password.created_at, true, "en-US")}</p>
-					</div>
+			{password.updated_at ? (
+				<div className="w-full flex items-center">
+					<p className="w-24 text-base font-bold">Last modified on</p>
+					<p className="text-base">{formatDate(password.updated_at, true, "en-US")}</p>
 				</div>
-			</section> */}
-
+			) : null}
 			<DangerZone
 				title="Delete password"
 				subtitle="Permanently delete a password."

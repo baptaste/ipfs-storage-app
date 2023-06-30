@@ -5,8 +5,8 @@ const ChangePassword = lazyImport("../features/src/settings", "ChangePassword");
 
 export function ChangePasswordRoute() {
 	return (
-		<MainLayout title="Account Password">
-			<ChangePassword />
-		</MainLayout>
+		// <MainLayout title="Account Password">
+		<ChangePassword />
+		// </MainLayout>
 	);
 }

@@ -41,7 +41,7 @@ export function PasswordsProvider(props?: PasswordsProviderProps) {
 			loading: state.loading,
 			dispatch,
 		};
-	}, [state.passwords, state.error, state.loading, dispatch]);
+	}, [state.passwords, state.password, state.error, state.loading, dispatch]);
 
 	return (
 		<PasswordsContext.Provider value={passwordsValue}>

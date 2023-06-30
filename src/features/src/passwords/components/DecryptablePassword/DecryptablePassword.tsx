@@ -115,9 +115,9 @@ export function DecryptablePassword({ password }: { password: IPassword }) {
 
 	return (
 		<>
-			<div className="DecryptablePassword w-full flex flex-col items-stretch justify-between mb-5 rounded-md">
+			<div className="DecryptablePassword w-full flex flex-col items-stretch justify-between rounded-md">
 				<div className="min-h-[96px] w-full flex flex-col items-stretch justify-between p-4 bg-slate-200 rounded-md">
-					<p className="text-md text-slate-400">Password</p>
+					<p className="text-base text-slate-400">Password</p>
 					<div className="h-2/3 w-full flex items-start justify-between">
 						<input
 							disabled={true}

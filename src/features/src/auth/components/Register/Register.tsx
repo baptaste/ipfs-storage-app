@@ -74,46 +74,50 @@ export function Register() {
 
 	return (
 		<VisiterLayout title="Create Account">
-			<h1 className="text-2xl font-bold mb-5">Welcome friend!</h1>
-			<div className="text-lg">
-				Already an account ?{" "}
-				<Link to={"/auth/login"} className="font-bold">
-					Log in
-				</Link>
+			<div className="w-full md:w-[400px] h-full flex flex-col items-center justify-center gap-6">
+				<div>
+					<h1 className="text-center text-2xl font-bold">Welcome friend !</h1>
+					Already an account ?{" "}
+					<Link to={"/auth/login"} className="font-bold">
+						Log in
+					</Link>
+				</div>
+
+				<form
+					onSubmit={handleSubmit}
+					className="w-full my-4 flex flex-col items-center gap-6"
+				>
+					{state.errorMsg?.length ? (
+						<p className="w-full text-center text-red-500 text-base my-4">
+							{state.errorMsg}
+						</p>
+					) : null}
+
+					<Input
+						type="email"
+						name="Email"
+						placeholder="Email"
+						value={state.email}
+						error={state.error}
+						onChange={(e) => handleChange("email", e)}
+					/>
+
+					<InputPassword
+						name="Password"
+						value={state.password}
+						error={state.error}
+						placeholder="Password"
+						onChange={(e) => handleChange("password", e)}
+					/>
+
+					<Button
+						title="Register"
+						type="submit"
+						disabled={!state.email.length || !state.password.length || state.error}
+						isLoading={state.loading}
+					/>
+				</form>
 			</div>
-
-			<form
-				onSubmit={handleSubmit}
-				className="w-full my-4 flex flex-col items-center justify-evenly"
-			>
-				{state.errorMsg?.length ? (
-					<p className="w-full text-center text-red-500 text-md my-4">{state.errorMsg}</p>
-				) : null}
-
-				<Input
-					type="email"
-					name="Email"
-					placeholder="Email"
-					value={state.email}
-					error={state.error}
-					onChange={(e) => handleChange("email", e)}
-				/>
-
-				<InputPassword
-					name="Password"
-					value={state.password}
-					error={state.error}
-					placeholder="Password"
-					onChange={(e) => handleChange("password", e)}
-				/>
-
-				<Button
-					title="Register"
-					type="submit"
-					disabled={!state.email.length || !state.password.length || state.error}
-					isLoading={state.loading}
-				/>
-			</form>
 		</VisiterLayout>
 	);
 }

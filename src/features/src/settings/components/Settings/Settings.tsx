@@ -16,7 +16,7 @@ export function Settings() {
 	}, [location.state]);
 
 	return (
-		<main className="Settings w-full flex flex-col justify-between">
+		<main className="Settings w-full md:w-1/2 md:mx-auto flex flex-col justify-between md:justify-normal md:pt-[90px] px-6">
 			{user ? (
 				<>
 					{/* <section
@@ -40,14 +40,14 @@ export function Settings() {
 						<h1 className="font-bold text-xl mb-3 text-slate-900">Preferences</h1>
 						<div className="w-full flex flex-col mb-5">
 							<p className="text-lg">Language</p>
-							<p className="text-md">{capitalize(user.preferences.language)}</p>
+							<p className="text-base">{capitalize(user.preferences.language)}</p>
 						</div>
 					</section>
 					<section id="account" className="w-full flex flex-col mb-5">
 						<h1 className="font-bold text-xl mb-3 text-slate-900">Account</h1>
 						<div className="w-full flex flex-col mb-5">
 							<p className="text-lg">Email</p>
-							<p className="text-md">{user.email}</p>
+							<p className="text-base">{user.email}</p>
 						</div>
 						<div className="w-full flex flex-col mb-5">
 							<p className="text-lg">Password</p>

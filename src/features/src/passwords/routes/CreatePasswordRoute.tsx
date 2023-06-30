@@ -1,12 +1,15 @@
-import { MainLayout } from "../../../../components/Layout";
+import * as React from "react";
 import { lazyImport } from "../../../../utils/imports";
+import { useManager } from "../../../store";
 
 const CreatePassword = lazyImport("../features/src/passwords", "CreatePassword");
 
 export function CreatePasswordRoute() {
-	return (
-		<MainLayout title="Create password">
-			<CreatePassword />
-		</MainLayout>
-	);
+	const manager = useManager();
+
+	React.useEffect(() => {
+		manager.dispatch({ type: "set_is_creating_item", creating: true });
+	}, []);
+
+	return <CreatePassword />;
 }

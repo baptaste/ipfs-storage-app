@@ -89,48 +89,48 @@ export function Login() {
 
 	return (
 		<VisiterLayout title="Log in">
-			<h1 className="text-2xl font-bold">Welcome back!</h1>
-			<h1 className="text-2xl font-bold mb-5">Log in</h1>
-			<div className="text-lg">
-				Not yet registered ?{" "}
-				<Link to={"/auth/register"} className="font-bold">
-					Sign up
-				</Link>
+			<div className="w-full md:w-[400px] h-full flex flex-col items-center justify-center gap-6">
+				<div>
+					<h1 className="w-full text-center text-2xl font-bold">Welcome back !</h1>
+					Not yet registered ?{" "}
+					<Link to={"/auth/register"} className="font-bold">
+						Sign Up
+					</Link>
+				</div>
+
+				<form
+					onSubmit={onSubmitLogin}
+					className="w-full my-4 flex flex-col items-center gap-6"
+				>
+					{state.errorMsg?.length ? (
+						<p className="w-full text-center text-red-500 text-base my-4">
+							{state.errorMsg}
+						</p>
+					) : null}
+					<Input
+						type="email"
+						name="Email"
+						placeholder="Email"
+						value={state.email}
+						error={state.error}
+						onChange={(e) => handleChange("email", e)}
+					/>
+					<InputPassword
+						name="Password"
+						value={state.password}
+						error={state.error}
+						placeholder="Password"
+						onChange={(e) => handleChange("password", e)}
+					/>
+					<Button
+						title="Log in"
+						type="submit"
+						disabled={!state.email.length || !state.password.length || state.error}
+						theme="secondary"
+						isLoading={state.loading}
+					/>
+				</form>
 			</div>
-
-			<form
-				onSubmit={onSubmitLogin}
-				className="w-full my-4 flex flex-col items-center justify-evenly"
-			>
-				{state.errorMsg?.length ? (
-					<p className="w-full text-center text-red-500 text-md my-4">{state.errorMsg}</p>
-				) : null}
-
-				<Input
-					type="email"
-					name="Email"
-					placeholder="Email"
-					value={state.email}
-					error={state.error}
-					onChange={(e) => handleChange("email", e)}
-				/>
-
-				<InputPassword
-					name="Password"
-					value={state.password}
-					error={state.error}
-					placeholder="Password"
-					onChange={(e) => handleChange("password", e)}
-				/>
-
-				<Button
-					title="Log in"
-					type="submit"
-					disabled={!state.email.length || !state.password.length || state.error}
-					theme="secondary"
-					isLoading={state.loading}
-				/>
-			</form>
 		</VisiterLayout>
 	);
 }

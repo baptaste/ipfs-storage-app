@@ -8,5 +8,5 @@ export const clipboardCopy = (value: string): Promise<void> => {
 };
 
 export function isMobile(): boolean {
-	return window?.innerWidth <= 1024;
+	return window?.innerWidth <= 668;
 }
