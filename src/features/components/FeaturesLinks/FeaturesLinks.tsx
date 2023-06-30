@@ -75,63 +75,57 @@ export function FeaturesLinks() {
 
 	return (
 		<nav className="FeaturesLinks w-ful h-full flex flex-col justify-between ">
-			<ul className="flex flex-col gap-6">
+			<ul className="w-full flex flex-col gap-2">
 				{links.map((link) => (
-					<li id={link.name} className="w-full rounded-xl">
+					<li
+						id={link.name}
+						className="w-full py-2 bg-slate-900 hover:bg-slate-800 transition-colors"
+					>
 						<button
 							key={link.name}
 							onClick={() => handleFeatureLinkClick(link.route)}
-							className={`text-slate-50 ${
+							className={`flex items-center justify-between gap-6 px-6 text-slate-50 ${
 								link.available ? "cursor-pointer" : "cursor-default"
 							}`}
 						>
-							<div className="w-full flex items-center justify-between">
-								<div className="flex items-center justify-between">
-									{link.icon}
-									<p
-										className={`text-base ml-5 ${
-											link.available
-												? "text-slate-900 md:text-slate-50"
-												: "text-slate-500"
-										}`}
-									>
-										{link.name}
-									</p>
-								</div>
-							</div>
+							{link.icon}
+							<p
+								className={`text-base ${
+									link.available
+										? "text-slate-900 md:text-slate-50"
+										: "text-slate-500"
+								}`}
+							>
+								{link.name}
+							</p>
 						</button>
 					</li>
 				))}
 			</ul>
 
-			<ul className="flex flex-col gap-6">
-				<li id="settings" className="w-full rounded-xl">
+			<ul className="flex flex-col gap-2">
+				<li
+					id="settings"
+					className="w-full py-2 bg-slate-900 hover:bg-slate-800 transition-colors"
+				>
 					<button
 						onClick={() => handleFeatureLinkClick(FeaturesRoutes.settings)}
-						className="text-slate-50"
+						className="flex items-center justify-between gap-6 px-6 text-slate-50"
 					>
-						<div className="w-full flex items-center justify-between">
-							<div className="flex items-center justify-between">
-								<SettingsIcon
-									active={location.pathname === FeaturesRoutes.settings}
-								/>
-								<p className="text-base ml-5 text-slate-900 md:text-slate-50">
-									Settings
-								</p>
-							</div>
-						</div>
+						<SettingsIcon active={location.pathname === FeaturesRoutes.settings} />
+						<p className="text-base text-slate-900 md:text-slate-50">Settings</p>
 					</button>
 				</li>
-				<li id="logout" className="w-full rounded-xl">
-					<button onClick={onLogout} className="text-slate-50">
-						<div className="w-full flex items-center justify-between">
-							<div className="flex items-center justify-between">
-								<LogoutIcon />
-								<p className="text-base ml-5 text-slate-900 md:text-slate-50">
-									Logout
-								</p>
-							</div>
-						</div>
+				<li
+					id="logout"
+					className="w-full py-2 bg-slate-900 hover:bg-slate-800 transition-colors"
+				>
+					<button
+						onClick={onLogout}
+						className="flex items-center justify-between gap-6 px-6 text-slate-50"
+					>
+						<LogoutIcon />
+						<p className="text-base text-slate-900 md:text-slate-50">Log out</p>
 					</button>
 				</li>
 			</ul>

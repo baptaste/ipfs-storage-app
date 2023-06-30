@@ -25,7 +25,7 @@ export function PasswordLink({ password, onClick = () => {} }: IPasswordLinkProp
 		<li
 			id={password._id}
 			onClick={onPasswordLinkClick}
-			className={`PasswordLink w-full px-6 py-2 border-b border-solid border-1 border-slate-300 ${
+			className={`PasswordLink w-full px-6 py-2 border-b border-solid border-1 border-slate-300 hover:bg-slate-200 transition-colors ${
 				selected ? "bg-slate-200" : ""
 			}`}
 		>
@@ -41,11 +41,7 @@ export function PasswordLink({ password, onClick = () => {} }: IPasswordLinkProp
 							className={`w-9 h-9 flex items-center justify-center`}
 						/>
 					) : (
-						<PasswordIcon
-							open={password.plaintext !== null}
-							size="small"
-							showThemeStatus
-						/>
+						<PasswordIcon active={password.plaintext !== null} size="small" />
 					)}
 
 					<div className="w-full flex flex-col ml-4">
