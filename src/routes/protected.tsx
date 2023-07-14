@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Routes, Route } from "react-router-dom";
 import { lazyImport } from "../utils/imports";
 
@@ -12,30 +13,30 @@ const SettingsRoute = lazyImport("../features/src/settings", "SettingsRoute");
 const ChangePasswordRoute = lazyImport("../features/src/settings", "ChangePasswordRoute");
 
 function ProtectedRoutes() {
-	return (
-		<Routes>
-			<Route path="dashboard" element={<DashboardRoute />}>
-				{/* Passwords feature */}
-				<Route path="passwords" element={<PasswordListRoute />}>
-					<Route path="create" element={<CreatePasswordRoute />} />
-					<Route path=":passwordId" element={<PasswordRoute />}>
-						<Route path="update" element={<UpdatePasswordRoute />} />
-					</Route>
-				</Route>
-				{/* Others features */}
-			</Route>
+  return (
+    <Routes>
+      <Route path="dashboard" element={<DashboardRoute />}>
+        {/* Passwords feature */}
+        <Route path="passwords" element={<PasswordListRoute />}>
+          <Route path="create" element={<CreatePasswordRoute />} />
+          <Route path=":passwordId" element={<PasswordRoute />}>
+            <Route path="update" element={<UpdatePasswordRoute />} />
+          </Route>
+        </Route>
+        {/* Others features */}
+      </Route>
 
-			<Route path="settings">
-				<Route index element={<SettingsRoute />} />
-				<Route path="password" element={<ChangePasswordRoute />} />
-			</Route>
-		</Routes>
-	);
+      <Route path="settings">
+        <Route index element={<SettingsRoute />} />
+        <Route path="password" element={<ChangePasswordRoute />} />
+      </Route>
+    </Routes>
+  );
 }
 
 export const protectedRoutes = [
-	{
-		path: "/*",
-		element: <ProtectedRoutes />,
-	},
+  {
+    path: "/*",
+    element: <ProtectedRoutes />,
+  },
 ];

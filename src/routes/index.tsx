@@ -8,36 +8,34 @@ import { publicRoutes } from "./public";
 const Landing = lazyImport("../features/src/landing", "Landing");
 
 export function AppRoutes() {
-	const navigate = useNavigate();
-	const context = useAuth();
-	const { loggedIn, error } = context;
+  const navigate = useNavigate();
+  const context = useAuth();
+  const { loggedIn, error } = context;
 
-	const commonRoutes = [
-		{ path: "/", element: loggedIn ? <Navigate to="/dashboard" replace /> : <Landing /> },
-		{ path: "*", element: <Navigate to="/" replace /> },
-	];
+  const commonRoutes = [
+    { path: "/", element: loggedIn ? <Navigate to="/dashboard" replace /> : <Landing /> },
+    { path: "*", element: <Navigate to="/" replace /> },
+  ];
 
-	const routes = loggedIn ? protectedRoutes : publicRoutes;
+  const routes = loggedIn ? protectedRoutes : publicRoutes;
 
-	const elements = useRoutes([...routes, ...commonRoutes]);
+  const elements = useRoutes([...routes, ...commonRoutes]);
 
-	React.useEffect(() => {
-		console.log("AppRoutes index - Context:", context);
+  React.useEffect(() => {
+    console.log("AppRoutes index - Context:", context);
+    if (loggedIn) {
+      navigate("/dashboard");
+    }
+    if (error && (error.response?.status === 401 || error.response?.status === 403)) {
+      const { message } = error.response.data;
+      console.log("AppRoutes - error:", error);
+      if (message === "Forbidden - Token expired") {
+        navigate("/auth/login"); // user has invalid token and needs to login again
+      } else if (message === "Forbidden - JsonWebTokenError: jwt must be provided") {
+        navigate("/auth/register"); // user doesnt have a token yet, needs to sign up
+      }
+    }
+  }, [loggedIn, error]);
 
-		if (loggedIn) {
-			navigate("/dashboard");
-		}
-
-		if (error && (error.response?.status === 401 || error.response?.status === 403)) {
-			const { message } = error.response.data;
-			console.log("AppRoutes - error:", error);
-			if (message === "Forbidden - Token expired") {
-				navigate("/auth/login"); // user has invalid token and needs to login again
-			} else if (message === "Forbidden - JsonWebTokenError: jwt must be provided") {
-				navigate("/auth/register"); // user doesnt have a token yet, needs to sign up
-			}
-		}
-	}, [loggedIn, error]);
-
-	return <>{elements}</>;
+  return elements;
 }

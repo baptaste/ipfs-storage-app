@@ -1,0 +1,56 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "airbnb",
+    "airbnb-typescript",
+    "plugin:react/recommended",
+    "plugin:import/typescript"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["react", "@typescript-eslint"],
+  "rules": {
+    "import/no-cycle": "off",
+    "operator-linebreak": "off",
+    "consistent-return": "off",
+    "no-underscore-dangle": "off",
+    "no-nested-ternary": "off",
+    "arrow-body-style": "off",
+    "no-plusplus": "off",
+    "object-curly-newline": "off",
+    "no-restricted-syntax": "off",
+    "prefer-promise-reject-errors": "off",
+    "@typescript-eslint/naming-convention": "off",
+    "@typescript-eslint/quotes": "off",
+    "@typescript-eslint/no-shadow": "off",
+    "jsx-a11y/click-events-have-key-events": ["off"],
+    "jsx-a11y/no-static-element-interactions": ["off"],
+    "jsx-a11y/no-noninteractive-element-to-interactive-role": "off",
+    "import/prefer-default-export": ["off"],
+    "react/jsx-uses-react": ["off"],
+    "react/jsx-props-no-spreading": ["warn"],
+    "react/no-unescaped-entities": ["off"],
+    "react/require-default-props": ["off"],
+    "react/button-has-type": ["off"],
+    "react/jsx-one-expression-per-line": ["off"]
+    // "object-curly-newline": [
+    //   "error",
+    //   {
+    //     "ObjectExpression": { "consistent": true, "multiline": true },
+    //     "ObjectPattern": { "consistent": true, "multiline": true },
+    //     "ImportDeclaration": "never",
+    //     "ExportDeclaration": { "multiline": true, "minProperties": 3 }
+    //   }
+    // ]
+  }
+}

@@ -1,1 +1,1 @@
-export * from './PasswordList'
+export * from './PasswordList';

@@ -1,51 +1,50 @@
-import { useEffect, useMemo, ReactNode, useReducer } from "react";
+import * as React from "react";
+
 import { useAuth } from "../../auth";
 import { fetchPasswords } from "../api";
-import { IPassword } from "../types";
 import { getPasswordsWithUtilityProps } from "../utils/password";
 import { PasswordsContext } from "./context";
 import { initialPasswordsState, passwordsReducer } from "./reducer";
 
 interface PasswordsProviderProps {
-	children?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export function PasswordsProvider(props?: PasswordsProviderProps) {
-	const { loggedIn } = useAuth();
-	const [state, dispatch] = useReducer(passwordsReducer, initialPasswordsState);
+  const { loggedIn } = useAuth();
+  const [state, dispatch] = React.useReducer(passwordsReducer, initialPasswordsState);
 
-	useEffect(() => {
-		console.log("PasswordsProvider - loggedIn:", loggedIn);
-		if (loggedIn) {
-			console.log("PasswordsProvider mount, call fetchPasswords... loggedIn:", loggedIn);
-			dispatch({ type: "loading", loading: true });
+  React.useEffect(() => {
+    console.log("PasswordsProvider - loggedIn:", loggedIn);
+    if (loggedIn) {
+      console.log("PasswordsProvider mount, call fetchPasswords... loggedIn:", loggedIn);
+      dispatch({ type: "loading", loading: true });
 
-			fetchPasswords()
-				.then((res) => {
-					if (res.success && res.passwords) {
-						const passwords = getPasswordsWithUtilityProps(res.passwords);
-						console.log("PasswordsProvider - res.passwords", res.passwords);
-						dispatch({ type: "passwords", passwords });
-					}
-				})
-				.catch((error) => dispatch({ type: "error", error }))
-				.finally(() => dispatch({ type: "loading", loading: false }));
-		}
-	}, [loggedIn]);
+      fetchPasswords()
+        .then((res) => {
+          if (res.success && res.passwords) {
+            const passwords = getPasswordsWithUtilityProps(res.passwords);
+            console.log("PasswordsProvider - res.passwords", res.passwords);
+            dispatch({ type: "passwords", passwords });
+          }
+        })
+        .catch((error) => dispatch({ type: "error", error }))
+        .finally(() => dispatch({ type: "loading", loading: false }));
+    }
+  }, [loggedIn]);
 
-	const passwordsValue = useMemo(() => {
-		return {
-			passwords: state.passwords,
-			password: state.password,
-			error: state.error,
-			loading: state.loading,
-			dispatch,
-		};
-	}, [state.passwords, state.password, state.error, state.loading, dispatch]);
+  const passwordsValue = React.useMemo(
+    () => ({
+      passwords: state.passwords,
+      password: state.password,
+      error: state.error,
+      loading: state.loading,
+      dispatch,
+    }),
+    [state.passwords, state.password, state.error, state.loading, dispatch],
+  );
 
-	return (
-		<PasswordsContext.Provider value={passwordsValue}>
-			{props?.children}
-		</PasswordsContext.Provider>
-	);
+  return (
+    <PasswordsContext.Provider value={passwordsValue}>{props?.children}</PasswordsContext.Provider>
+  );
 }

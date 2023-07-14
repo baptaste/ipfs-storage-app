@@ -1,3 +1,3 @@
-import type { IInputProps } from '../Input/Input.d'
+import type { IInputProps } from "../AppInput/AppInput.d";
 
 export declare interface IInputPasswordProps extends IInputProps {}

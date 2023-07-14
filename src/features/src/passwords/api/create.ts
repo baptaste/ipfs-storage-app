@@ -1,43 +1,43 @@
 import httpClient from "../../../../lib/axios";
 import { arrayBufferToUint8Array } from "../../../../utils/bytes";
+import { IEncryptedData } from "../../../../utils/encryption";
 import { IPassword } from "../types";
 
 export type CreatePasswordResponse = {
-	success: boolean;
-	password?: IPassword;
-	message?: string;
+  success: boolean;
+  password?: IPassword;
+  message?: string;
 };
 
 export function createPassword(
-	encryptedPassword: ArrayBuffer,
-	encryptionVector: Uint8Array,
-	title?: string,
-	websiteUrl?: string,
+  password: IEncryptedData,
+  title?: string,
+  websiteUrl?: string,
 ): Promise<CreatePasswordResponse> {
-	console.log(
-		"createPassword - encryptedPassword",
-		encryptedPassword,
-		"vector",
-		encryptionVector,
-	);
-	let data: any = {
-		password: arrayBufferToUint8Array(encryptedPassword),
-		vector: encryptionVector,
-	};
-	if (title) data.title = title;
-	if (websiteUrl) data.websiteUrl = websiteUrl;
+  let data: any = {
+    password: {
+      ...password,
+      encrypted: arrayBufferToUint8Array(password.encrypted),
+    },
+  };
+  if (title) {
+    data = { ...data, title };
+  }
+  if (websiteUrl) {
+    data = { ...data, websiteUrl };
+  }
 
-	return new Promise((resolve, reject) => {
-		httpClient
-			.post("/passwords/create", data, {
-				withCredentials: true,
-			})
-			.then((res) => {
-				resolve(res.data);
-			})
-			.catch((err) => {
-				console.log("api - createPassword err:", err);
-				reject(err);
-			});
-	});
+  return new Promise((resolve, reject) => {
+    httpClient
+      .post("/passwords/create", data, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        console.log("api - createPassword err:", err);
+        reject(err);
+      });
+  });
 }

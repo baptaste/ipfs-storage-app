@@ -7,22 +7,22 @@ import { FeaturesRoutes } from "../../../routes";
 const Settings = lazyImport("../features/src/settings", "Settings");
 
 export function SettingsRoute() {
-	const manager = useManager();
+  const manager = useManager();
 
-	React.useEffect(() => {
-		manager.dispatch({
-			type: "set_feature",
-			feature: {
-				...initialFeature,
-				name: FeatureNames.settings,
-				route: FeaturesRoutes.settings,
-			},
-		});
-	}, []);
+  React.useEffect(() => {
+    manager.dispatch({
+      type: "set_feature",
+      feature: {
+        ...initialFeature,
+        name: FeatureNames.settings,
+        route: FeaturesRoutes.settings,
+      },
+    });
+  }, []);
 
-	return (
-		<MainLayout>
-			<Settings />
-		</MainLayout>
-	);
+  return (
+    <MainLayout>
+      <Settings />
+    </MainLayout>
+  );
 }

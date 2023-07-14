@@ -1,2 +1,2 @@
-export * from './SettingsRoute'
-export * from './ChangePasswordRoute'
+export * from './SettingsRoute';
+export * from './ChangePasswordRoute';

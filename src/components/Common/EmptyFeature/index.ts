@@ -1,1 +1,1 @@
-export * from './EmptyFeature'
+export * from './EmptyFeature';

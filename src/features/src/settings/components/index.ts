@@ -1,2 +1,2 @@
-export * from './Settings'
-export * from './ChangePassword'
+export * from './Settings';
+export * from './ChangePassword';

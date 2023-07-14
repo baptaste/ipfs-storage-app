@@ -1,5 +1,9 @@
-import { lazy } from 'react'
+import { lazy } from "react";
 
-export const lazyImport = (filePath: string, componentName: string) => {
-	return lazy(() => import(filePath).then((module) => ({ default: module[componentName] })))
+export function lazyImport(filePath: string, componentName: string) {
+  return lazy(async () => {
+    return import(filePath).then((module) => {
+      return { default: module[componentName] };
+    });
+  });
 }

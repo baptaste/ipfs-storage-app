@@ -1,1 +1,1 @@
-export * from './PasswordIcon'
+export * from './PasswordIcon';

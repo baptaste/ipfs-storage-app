@@ -1,1 +1,1 @@
-export * from './SlideSwitch'
+export * from './SlideSwitch';

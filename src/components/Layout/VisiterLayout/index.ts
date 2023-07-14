@@ -1,1 +1,1 @@
-export * from './VisiterLayout'
+export * from './VisiterLayout';

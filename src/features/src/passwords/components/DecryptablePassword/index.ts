@@ -1,1 +1,1 @@
-export * from './DecryptablePassword'
+export * from './DecryptablePassword';

@@ -1,2 +1,2 @@
-export * from './HeaderNav'
-export * from './TabNav'
+export * from './HeaderNav';
+export * from './TabNav';

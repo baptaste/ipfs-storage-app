@@ -1,1 +1,1 @@
-export * from './PasswordLink'
+export * from './PasswordLink';
