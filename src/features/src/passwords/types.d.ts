@@ -7,7 +7,8 @@ export interface IPassword {
   displayed_name: string;
   plaintext: string | null; // client-only property
   visible: boolean; // client-only property
-
+  description?: string;
+  email?: string;
   image_url?: string;
   title?: string;
   updated_at?: string;

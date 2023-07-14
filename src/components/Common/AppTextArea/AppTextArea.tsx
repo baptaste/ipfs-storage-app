@@ -1,23 +1,31 @@
 import * as React from "react";
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
-import type { IInputPasswordProps } from "./InputPassword.d";
 
-export function InputPassword(props: IInputPasswordProps) {
+interface AppTextAreaProps {
+  disabled?: boolean;
+  error?: boolean;
+  label?: string;
+  name?: string;
+  placeholder?: string;
+  required?: boolean;
+  validated?: boolean;
+  value?: string;
+  onChange?: ((e: React.ChangeEvent<HTMLTextAreaElement>) => void) | undefined;
+  onClick?: ((e: React.MouseEvent) => void) | undefined;
+}
+
+export function AppTextArea(props: AppTextAreaProps) {
   const {
-    type = "password",
-    placeholder,
-    value = "",
-    label = null,
-    name = type,
-    error = undefined,
-    validated = false,
     disabled = false,
+    error,
+    label,
+    name,
+    placeholder,
     required = false,
-    onClick,
+    validated = false,
+    value,
     onChange,
+    onClick,
   } = props;
-
-  const [visible, setVisible] = React.useState(false);
   const [focused, setFocused] = React.useState(false);
 
   const getBorderColor = () => {
@@ -35,13 +43,14 @@ export function InputPassword(props: IInputPasswordProps) {
 
   return (
     <div
-      className={`InputPassword w-full flex flex-col items-stretch justify-between rounded-md ${
+      className={`AppTextArea w-full flex flex-col items-stretch justify-between rounded-md ${
         !label ? `border-solid border-2 ${getBorderColor()}` : ""
       }`.trim()}
     >
       {label ? (
         <label htmlFor={name} className="w-full mb-3 font-bold text-left text-base text-slate-900">
-          {label} {required ? "*" : null}
+          {label}
+          {required ? "*" : null}
         </label>
       ) : null}
 
@@ -50,22 +59,24 @@ export function InputPassword(props: IInputPasswordProps) {
           label ? `border-solid border-2 ${getBorderColor()}` : ""
         }`.trim()}
       >
-        {label === null ? (
+        {!label ? (
           <p
             className={`w-fit absolute left-4 top-4 text-base text-slate-400 ${
-              value.length ? "visible" : "invisible"
+              value && value.length ? "visible" : "invisible"
             }`}
           >
-            {placeholder} {required ? "*" : null}
+            {placeholder}
+            {required ? "*" : null}
           </p>
         ) : null}
 
-        <input
-          type={visible ? "text" : "password"}
+        <textarea
           value={value}
           name={name}
           placeholder={placeholder}
-          className={`w-full pr-12 break-all rounded-md text-base ${getInputColor()} bg-transparent focus:outline-none`}
+          rows={5}
+          maxLength={255}
+          className={`w-full break-all rounded-md text-base ${getInputColor()} bg-transparent focus:outline-none`.trim()}
           disabled={disabled}
           required={required}
           onClick={onClick}
@@ -73,18 +84,6 @@ export function InputPassword(props: IInputPasswordProps) {
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
         />
-
-        {visible ? (
-          <EyeSlashIcon
-            className="h-7 w-7 text-slate-500 cursor-pointer absolute right-4"
-            onClick={() => setVisible(false)}
-          />
-        ) : (
-          <EyeIcon
-            className="h-7 w-7 text-slate-500 cursor-pointer absolute right-4"
-            onClick={() => setVisible(true)}
-          />
-        )}
       </div>
       {error ? <p className="w-full text-red-500 text-sm pt-2">{error}</p> : null}
     </div>

@@ -76,10 +76,22 @@ export function Password({ password }: { password: IPassword }) {
         <h1 className="text-2xl text-slate-900">{password.displayed_name}</h1>
       </section>
 
+      <div className="w-full flex flex-col gap-4">
+        <p className="text-base font-bold">Password</p>
+        <DecryptablePassword password={password} />
+      </div>
+
       <div className="w-full flex items-center">
         <p className="w-40 text-base font-bold">Name</p>
         <p className="text-base">{password.displayed_name}</p>
       </div>
+
+      {password.email ? (
+        <div className="w-full flex items-center">
+          <p className="w-40 text-base font-bold">Email</p>
+          <p className="text-base">{password.email}</p>
+        </div>
+      ) : null}
 
       {password.website_url ? (
         <div className="w-full flex items-center">
@@ -90,10 +102,12 @@ export function Password({ password }: { password: IPassword }) {
         </div>
       ) : null}
 
-      <div className="w-full flex flex-col gap-4">
-        <p className="text-base font-bold">Password</p>
-        <DecryptablePassword password={password} />
-      </div>
+      {password.description ? (
+        <div className="w-full flex items-center">
+          <p className="w-40 text-base font-bold">Description</p>
+          <p className="text-base">{password.description}</p>
+        </div>
+      ) : null}
 
       <div className="w-full flex items-center">
         <p className="w-40 text-base font-bold">Created on</p>
@@ -106,6 +120,7 @@ export function Password({ password }: { password: IPassword }) {
           <p className="text-base">{formatDate(password.updated_at, true, "en-US")}</p>
         </div>
       ) : null}
+
       <DangerZone
         title="Delete password"
         subtitle="Permanently delete a password."

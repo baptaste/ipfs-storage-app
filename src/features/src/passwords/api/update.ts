@@ -15,6 +15,8 @@ export function updatePassword(
   password?: IEncryptedData,
   title?: string,
   websiteUrl?: string,
+  email?: string,
+  description?: string,
 ): Promise<UpdatePasswordResponse> {
   return new Promise((resolve, reject) => {
     let data: any = {
@@ -34,6 +36,12 @@ export function updatePassword(
     }
     if (websiteUrl) {
       data = { ...data, websiteUrl };
+    }
+    if (email) {
+      data = { ...data, email };
+    }
+    if (description) {
+      data = { ...data, description };
     }
 
     httpClient

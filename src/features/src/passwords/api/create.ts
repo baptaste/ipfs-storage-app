@@ -13,6 +13,8 @@ export function createPassword(
   password: IEncryptedData,
   title?: string,
   websiteUrl?: string,
+  email?: string,
+  description?: string,
 ): Promise<CreatePasswordResponse> {
   let data: any = {
     password: {
@@ -25,6 +27,12 @@ export function createPassword(
   }
   if (websiteUrl) {
     data = { ...data, websiteUrl };
+  }
+  if (email) {
+    data = { ...data, email };
+  }
+  if (description) {
+    data = { ...data, description };
   }
 
   return new Promise((resolve, reject) => {

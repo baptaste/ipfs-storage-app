@@ -74,7 +74,7 @@ export function DecryptablePassword({ password }: { password: IPassword }) {
     if (isLoading) return <Spinner size="small" />;
 
     if (password.plaintext === null) {
-      return <PasswordIcon onClick={onRetrievePassword} />;
+      return <PasswordIcon onClick={onRetrievePassword} size="small" />;
     }
     return (
       <div className="flex items-center">
@@ -107,15 +107,15 @@ export function DecryptablePassword({ password }: { password: IPassword }) {
 
   return (
     <>
-      <div className="DecryptablePassword w-full flex flex-col items-stretch justify-between rounded-md">
-        <div className="min-h-[96px] w-full flex flex-col items-stretch justify-between p-4 bg-slate-200 rounded-md">
-          <p className="text-base text-slate-400">Password</p>
-          <div className="h-2/3 w-full flex items-start justify-between">
+      <div className="DecryptablePassword w-full h-[60px] flex flex-col items-stretch justify-between rounded-md">
+        <div className="w-full flex flex-col items-stretch justify-between p-4 bg-slate-200 rounded-md">
+          {/* <p className="text-base text-slate-400">Password</p> */}
+          <div className="h-full w-full flex items-start justify-between">
             <input
               disabled
               type={password.plaintext && password.visible ? "text" : "password"}
               value={password.plaintext ?? "****************"}
-              className={`w-full pr-2 break-all rounded-md text-lg text-slate-900 bg-transparent ${
+              className={`w-full h-full pr-2 break-all rounded-md text-base text-slate-900 bg-transparent ${
                 password.visible ? "text-ellipsis" : ""
               }`.trim()}
             />

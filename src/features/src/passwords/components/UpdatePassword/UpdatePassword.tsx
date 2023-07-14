@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 
-import { AppButton, AppInput, InputPassword } from "../../../../../components/Common";
+import { AppButton, AppInput, AppTextArea, InputPassword } from "../../../../../components/Common";
 import { usePasswords } from "../../store";
 import { updatePassword } from "../../api";
 import type { IPassword } from "../../types";
@@ -26,13 +26,18 @@ export function UpdatePassword() {
   const [state, setState] = React.useState<any>({
     error: undefined,
     password: "",
-    title: "",
-    websiteUrl: "",
+    title: undefined,
+    websiteUrl: undefined,
+    email: undefined,
+    description: undefined,
   });
 
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
-  const handleChange = (input: string, event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    input: string,
+    event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
     setState((state: any) => ({
       ...state,
       error: undefined,
@@ -57,6 +62,8 @@ export function UpdatePassword() {
         payload.password,
         payload.title,
         payload.websiteUrl,
+        payload.email,
+        payload.description,
       );
       if (res.success) {
         setIsLoading(false);
@@ -98,10 +105,25 @@ export function UpdatePassword() {
   return (
     <div className="UpdatePassword w-full md:w-1/2 flex flex-col justify-between gap-6 md:justify-normal md:pt-[90px] md:px-6">
       <h1 className="text-center text-2xl text-slate-900 font-bold">Update password</h1>
+      {state.error ? <p className="w-full text-red-500 text-sm">{state.error}</p> : null}
       <div className="w-full flex flex-col items-center gap-6">
+        <InputPassword
+          label="New password"
+          placeholder="Password"
+          value={state.password}
+          onChange={(e) => handleChange("password", e)}
+          // error={state.error}
+        />
         <AppInput
           type="text"
-          label="New title"
+          label="Email"
+          placeholder="Email used with your password"
+          value={state.email}
+          onChange={(e) => handleChange("email", e)}
+        />
+        <AppInput
+          type="text"
+          label="Title"
           placeholder="Google.com, Apple.com..."
           value={state.title}
           onChange={(e) => handleChange("title", e)}
@@ -113,18 +135,19 @@ export function UpdatePassword() {
           value={state.websiteUrl}
           onChange={(e) => handleChange("websiteUrl", e)}
         />
-        <InputPassword
-          label="New password"
-          placeholder="Password"
-          value={state.password}
-          onChange={(e) => handleChange("password", e)}
-          error={state.error}
+        <AppTextArea
+          label="Description"
+          placeholder="Describe your password"
+          value={state.description}
+          onChange={(e) => handleChange("description", e)}
         />
       </div>
       <AppButton
         title="Save changes"
         onClick={onUpdatePassword}
-        disabled={!state.title && !state.password && !state.websiteUrl}
+        disabled={
+          !state.title && !state.password && !state.websiteUrl && !state.email && !state.description
+        }
         theme="secondary"
         isLoading={isLoading}
       />

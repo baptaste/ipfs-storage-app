@@ -9,3 +9,4 @@ export * from "./DangerZone";
 export * from "./SlideSwitch";
 export * from "./InputPassword";
 export * from "./SearchInput";
+export * from "./AppTextArea";

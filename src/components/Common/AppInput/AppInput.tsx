@@ -46,7 +46,7 @@ export function AppInput(props: IInputProps) {
       }`.trim()}
     >
       {label ? (
-        <label htmlFor={name} className="w-full mb-3 font-bold text-left text-lg text-slate-900">
+        <label htmlFor={name} className="w-full mb-3 font-bold text-left text-base text-slate-900">
           {label}
           {required ? "*" : null}
         </label>
@@ -73,7 +73,7 @@ export function AppInput(props: IInputProps) {
           value={value}
           name={name}
           placeholder={placeholder}
-          className={`w-full break-all rounded-md text-lg ${getInputColor()} bg-transparent focus:outline-none ${
+          className={`w-full break-all rounded-md text-base ${getInputColor()} bg-transparent focus:outline-none ${
             copyable && disabled ? " pt-2 pr-12 text-ellipsis" : ""
           }`.trim()}
           disabled={disabled}
