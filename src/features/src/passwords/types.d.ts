@@ -1,3 +1,5 @@
+import { IpfsDataType } from "../../types";
+
 export interface IPassword {
   _id: string;
   encryption_id: string;
@@ -13,12 +15,6 @@ export interface IPassword {
   title?: string;
   updated_at?: string;
   website_url?: string;
-}
-
-export interface IpfsDataType {
-  cid: string;
-  size: number;
-  path: string;
 }
 
 export type IPasswords = IPassword[];

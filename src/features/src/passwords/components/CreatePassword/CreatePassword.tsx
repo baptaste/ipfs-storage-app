@@ -6,8 +6,7 @@ import { usePasswords } from "../../store";
 import { createPassword } from "../../api";
 import { useAuth } from "../../../auth";
 import { encryptText } from "../../../../../utils/encryption";
-import { useManager } from "../../../../store";
-import { FeaturesRoutes } from "../../../../routes";
+import { FeaturesRoutes, useManager } from "../../../../manager";
 
 export function CreatePassword() {
   const { user } = useAuth();

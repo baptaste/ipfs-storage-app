@@ -5,8 +5,13 @@ import { PlusSmallIcon, RocketLaunchIcon } from "@heroicons/react/24/solid";
 import { useAuth } from "../../../features/src/auth";
 import { updateView } from "../../../utils/viewTransition";
 import { isMobile } from "../../../utils/browser";
-import { FeaturesRoutes } from "../../../features/routes";
-import { FeatureNames, initialFeature, useManager } from "../../../features/store";
+
+import {
+  FeatureNames,
+  FeaturesRoutes,
+  initialFeature,
+  useManager,
+} from "../../../features/manager";
 import { EditIcon } from "../../Common";
 import { capitalize } from "../../../utils/string";
 

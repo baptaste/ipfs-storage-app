@@ -7,7 +7,7 @@ interface UnavailableIconProps {
 
 export function UnavailableIcon({ onClick = () => {} }: UnavailableIconProps) {
   return (
-    <div className="flex items-center justify-center p-2 rounded-lg bg-slate-600/[.3] cursor-default">
+    <div className="w-10 h-10 flex items-center justify-center p-2 rounded-lg bg-slate-600/[.3] cursor-default">
       <NoSymbolIcon className="w-6 h-6 text-slate-500" onClick={onClick} />
     </div>
   );

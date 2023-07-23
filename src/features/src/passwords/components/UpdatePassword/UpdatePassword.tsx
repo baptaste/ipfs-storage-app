@@ -4,11 +4,10 @@ import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom"
 import { AppButton, AppInput, AppTextArea, InputPassword } from "../../../../../components/Common";
 import { usePasswords } from "../../store";
 import { updatePassword } from "../../api";
-import type { IPassword } from "../../types";
 import { useAuth } from "../../../auth";
-import { FeaturesRoutes } from "../../../../routes";
-import { useManager } from "../../../../store";
+import { FeaturesRoutes, useManager } from "../../../../manager";
 import { IEncryptedData, encryptText } from "../../../../../utils/encryption";
+import type { IPassword } from "../../types";
 
 export function UpdatePassword() {
   const { passwordId } = useParams();

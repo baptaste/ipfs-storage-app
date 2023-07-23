@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AppButton, Spinner } from "../../../../../components/Common";
 import { logout } from "../../api";
 import { useAuth } from "../../store";
-import { useManager } from "../../../../store";
+import { useManager } from "../../../../manager";
 
 export function Logout() {
   const navigate = useNavigate();

@@ -1,22 +1,22 @@
 import * as React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import { Spinner } from "./components/Common";
+import AppProvider from "./features/provider";
 import { AppRoutes } from "./routes";
-import { ManagerProvider } from "./features/store";
+import { Spinner } from "./components/Common";
 
 import "./assets/styles/index.scss";
 
 export default function App() {
   return (
     <div className="App">
-      <ManagerProvider>
+      <AppProvider>
         <Router>
           <React.Suspense fallback={<Spinner size="screen" />}>
             <AppRoutes />
           </React.Suspense>
         </Router>
-      </ManagerProvider>
+      </AppProvider>
     </div>
   );
 }

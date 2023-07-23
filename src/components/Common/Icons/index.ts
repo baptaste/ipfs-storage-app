@@ -4,3 +4,8 @@ export * from "./UnavailableIcon";
 export * from "./EditIcon";
 export * from "./SettingsIcon";
 export * from "./LogoutIcon";
+export * from "./NoteIcon";
+export * from "./CloseIcon";
+export * from "./SearchIcon";
+export * from "./ClockIcon";
+export * from "./TimeSortIcon";

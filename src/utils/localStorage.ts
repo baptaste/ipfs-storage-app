@@ -1,4 +1,4 @@
-const prefix: string = 'web3_storage_';
+const prefix: string = "ipfs_storage_";
 
 export const localStorage = {
   get: (key: string) => JSON.parse(window.localStorage.getItem(`${prefix}${key}`) as string),

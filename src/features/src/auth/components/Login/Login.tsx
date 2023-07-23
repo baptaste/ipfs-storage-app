@@ -7,7 +7,7 @@ import { VisiterLayout } from "../../../../../components/Layout";
 import { setHeaderToken } from "../../../../../lib/axios";
 import { useAuth } from "../../store";
 import { loginUser } from "../../services/loginUser";
-import { useManager } from "../../../../store";
+import { useManager } from "../../../../manager";
 
 interface ILoginState {
   [key: string]: string | boolean;

@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { lazyImport } from "../../../../utils/imports";
-import { useManager } from "../../../store";
+import { useManager } from "../../../manager";
 
 const UpdatePassword = lazyImport("../features/src/passwords", "UpdatePassword");
 

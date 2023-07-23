@@ -1,21 +1,23 @@
 import * as React from "react";
-import { AuthProvider } from "../src/auth";
-import { PasswordsProvider } from "../src/passwords";
+
 import { ManagerContext, initialManagerState } from "./context";
 import { managerReducer } from "./reducer";
 import { toastError, toastSuccess } from "../../lib/toast";
+import { ProviderProps } from "../provider";
 
-export function ManagerProvider({ children }: { children: React.ReactNode }) {
+export function ManagerProvider({ children }: ProviderProps) {
   const [state, dispatch] = React.useReducer(managerReducer, initialManagerState);
   const { error, feature, loading, notification } = state;
 
-  const manager = React.useMemo(() => ({
-    dispatch,
-    error,
-    feature,
-    loading,
-    notification,
-  }), [state, dispatch]);
+  const manager = React.useMemo(() => {
+    return {
+      dispatch,
+      error,
+      feature,
+      loading,
+      notification,
+    };
+  }, [state, dispatch]);
 
   React.useEffect(() => {
     console.log("ManagerProvider - state", state);
@@ -39,11 +41,5 @@ export function ManagerProvider({ children }: { children: React.ReactNode }) {
     }
   }, [notification]);
 
-  return (
-    <ManagerContext.Provider value={manager}>
-      <AuthProvider>
-        <PasswordsProvider>{children}</PasswordsProvider>
-      </AuthProvider>
-    </ManagerContext.Provider>
-  );
+  return <ManagerContext.Provider value={manager}>{children}</ManagerContext.Provider>;
 }

@@ -8,7 +8,7 @@ import { deletePassword } from "../../api";
 import type { IPassword } from "../../types";
 import { DecryptablePassword } from "../DecryptablePassword";
 import { useAuth } from "../../../auth";
-import { useManager } from "../../../../store";
+import { useManager } from "../../../../manager";
 
 export function Password({ password }: { password: IPassword }) {
   const navigate = useNavigate();

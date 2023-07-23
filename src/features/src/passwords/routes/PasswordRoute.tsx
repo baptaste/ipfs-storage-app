@@ -3,7 +3,7 @@ import { Navigate, Outlet, useLocation, useParams } from "react-router-dom";
 import { lazyImport } from "../../../../utils/imports";
 import { usePasswords } from "../store";
 import type { IPassword } from "../types";
-import { useManager } from "../../../store";
+import { useManager } from "../../../manager";
 
 const Password = lazyImport("../features/src/passwords", "Password");
 

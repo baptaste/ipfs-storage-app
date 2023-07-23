@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 import { EmptyFeature, SearchInput, Spinner } from "../../../../../components/Common";
@@ -9,11 +9,12 @@ import type { IPassword, IPasswords } from "../../types";
 import { localStorage } from "../../../../../utils/localStorage";
 import { usePasswordList } from "./usePasswordList";
 import { hideOnInaccurateRoutePath } from "../../../../../utils/views";
-import { FeaturesRoutes } from "../../../../routes";
+import { FeatureNames, FeaturesRoutes } from "../../../../manager";
+// import { FeaturesRoutes } from "../../../../routes";
 
 export function PasswordList() {
-  const location = useLocation();
-  const { passwords, password, loading, error, dispatch } = usePasswords();
+  // const location = useLocation();
+  const { passwords, loading, error } = usePasswords();
 
   const [filterSort, setFilterSort] = React.useState<"latest" | "oldest">("latest");
   const [searchValue, setSearchValue] = React.useState<string>("");
@@ -28,7 +29,12 @@ export function PasswordList() {
   );
 
   if (!passwords.length) {
-    return <EmptyFeature name="passwords" redirectTo="/passwords/create" />;
+    return (
+      <EmptyFeature
+        name={FeatureNames.passwords}
+        redirectTo={`${FeaturesRoutes.passwords}/create`}
+      />
+    );
   }
 
   if (error) {
@@ -60,17 +66,15 @@ export function PasswordList() {
     localStorage.set("passwords_suggested", searchItems);
   };
 
-  React.useEffect(() => {
-    console.log("••••••••• PasswordList component - password", password);
-    if (password && location.pathname === FeaturesRoutes.passwords) {
-      dispatch({ type: "password", password: null });
-    }
-  }, [password, location.pathname]);
-
-  // md:pt-[534px]
+  // React.useEffect(() => {
+  //   console.log("••••••••• PasswordList component - password", password);
+  //   if (password && location.pathname === FeaturesRoutes.passwords) {
+  //     dispatch({ type: "password", password: null });
+  //   }
+  // }, [password, location.pathname]);
 
   return (
-    <main
+    <div
       className={`PasswordList ${hideOnInaccurateRoutePath(
         "/dashboard/passwords",
       )} md:flex min-h-screen h-screen w-full md:w-[400px] md:min-w-[400px] flex flex-col items-center gap-6 md:pt-[90px] overflow-y-scroll`.trim()}
@@ -162,6 +166,6 @@ export function PasswordList() {
           ))}
         </ul>
       </section>
-    </main>
+    </div>
   );
 }

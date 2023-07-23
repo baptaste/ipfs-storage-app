@@ -4,7 +4,7 @@ import { AppButton, AppInput, InputPassword } from "../../../../../components/Co
 import { VisiterLayout } from "../../../../../components/Layout";
 import { UserPreferences } from "../../api/types";
 import { createUser } from "../../services/createUser";
-import { useManager } from "../../../../store";
+import { useManager } from "../../../../manager";
 
 interface IRegisterState {
   [key: string]: string | boolean;

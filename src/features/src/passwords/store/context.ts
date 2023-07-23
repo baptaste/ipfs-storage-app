@@ -2,7 +2,7 @@ import { createContext, useContext } from "react";
 import type { IPassword, IPasswords } from "../types";
 
 export interface IPasswordsContext {
-  passwords: IPasswords;
+  passwords: IPasswords | [];
   password: IPassword | null;
   loading: boolean;
   error: any;

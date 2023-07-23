@@ -3,9 +3,8 @@ import { ToastContainer } from "react-toastify";
 
 import { HeaderNav, TabNav } from "../../Navigation";
 import { Sidebar } from "../Sidebar";
-import { useManager } from "../../../features/store";
-import { FeaturesLinks } from "../../../features/components";
-import { FeaturesRoutes } from "../../../features/routes";
+import { FeaturesRoutes, useManager } from "../../../features/manager";
+import { FeaturesNav } from "../../../features/components";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -19,18 +18,27 @@ export function MainLayout(props: MainLayoutProps) {
   // const location = useLocation();
   const manager = useManager();
 
+  const getDividerLine = (): React.JSX.Element | null => {
+    if (
+      !manager.feature.empty &&
+      manager.feature.route != null &&
+      manager.feature.route.includes(FeaturesRoutes.dashboard)
+    ) {
+      return (
+        <span className="Divider hidden md:block w-[1px] fixed top-0 left-[calc(245px+400px)] h-full border-r border-solid border-1 border-slate-300" />
+      );
+    }
+    return null;
+  };
+
   return (
-    <div
-      className={`MainLayout relative top-0 left-0 md:left-[245px] w-full h-auto md:w-[calc(100%-245px)] min-h-screen flex md:justify-between overflow-y-scroll bg-slate-50 text-slate-900 px-4 pt-[100px] pb-20 md:px-0 md:pt-0 md:pb-10`.trim()}
-    >
+    <div className="MainLayout relative top-0 left-0 md:left-[245px] w-full h-auto md:w-[calc(100%-245px)] min-h-screen flex md:justify-between items-center overflow-y-scroll bg-slate-50 text-slate-900 px-4 pt-[100px] pb-20 md:px-0 md:pt-0 md:pb-10">
       <HeaderNav />
       <Sidebar>
-        <FeaturesLinks />
+        <FeaturesNav />
       </Sidebar>
       {children}
-      {manager.feature.route != null && manager.feature.route.includes(FeaturesRoutes.dashboard) ? (
-        <span className="Divider hidden md:block w-[1px] fixed top-0 left-[calc(245px+400px)] h-full border-r border-solid border-1 border-slate-300" />
-      ) : null}
+      {getDividerLine()}
       <TabNav />
       <ToastContainer />
     </div>

@@ -1,15 +1,18 @@
 import * as React from "react";
+
 import SleepingKoalaImg from "../../../assets/img/sleeping-koala.jpg";
 import { AppLink } from "../AppLink";
+import { FeatureNames } from "../../../features/manager";
 
 interface EmptyFeatureProps {
-  name: string;
+  name: FeatureNames;
   redirectTo: string;
 }
 
-export function EmptyFeature({ name, redirectTo }: EmptyFeatureProps) {
+export function EmptyFeature(props: EmptyFeatureProps) {
+  const { name, redirectTo } = props;
   return (
-    <div className="EmptyScreen w-full lg:w-1/3 h-full flex flex-col items-center justify-between pb-4">
+    <div className="EmptyScreen w-full h-full flex flex-col items-center justify-between gap-6">
       <h1 className="text-xl font-bold mb-5">Wow, it's empty here</h1>
       <img
         loading="lazy"
@@ -19,11 +22,8 @@ export function EmptyFeature({ name, redirectTo }: EmptyFeatureProps) {
         className="rounded-full"
         alt="Empty"
       />
-      <p className="font-bold text-base">
-        Start storing
-        {name} now
-      </p>
-      <AppLink path={`/dashboard${redirectTo}`} text="Get started" theme="secondary" />
+      <p className="font-bold text-base">Start storing {name} now</p>
+      <AppLink path={redirectTo} text="Get started" theme="secondary" />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AppButton, InputPassword } from "../../../../../components/Common";
 import { useAuth } from "../../../auth";
 import { changePassword } from "../../api";
-import { useManager } from "../../../../store";
+import { useManager } from "../../../../manager";
 
 export function ChangePassword() {
   const navigate = useNavigate();

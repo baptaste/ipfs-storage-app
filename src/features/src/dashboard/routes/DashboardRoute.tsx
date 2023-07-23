@@ -1,7 +1,8 @@
 import * as React from "react";
 import { Outlet, useLocation } from "react-router-dom";
+
+import { FeaturesRoutes } from "../../../manager";
 import { MainLayout } from "../../../../components/Layout";
-import { FeaturesRoutes } from "../../../routes";
 import { Dashboard } from "../components";
 
 export function DashboardRoute() {

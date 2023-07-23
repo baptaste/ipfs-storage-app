@@ -1,8 +1,7 @@
 import * as React from "react";
 import { MainLayout } from "../../../../components/Layout";
 import { lazyImport } from "../../../../utils/imports";
-import { FeatureNames, initialFeature, useManager } from "../../../store";
-import { FeaturesRoutes } from "../../../routes";
+import { FeatureNames, FeaturesRoutes, initialFeature, useManager } from "../../../manager";
 
 const Settings = lazyImport("../features/src/settings", "Settings");
 

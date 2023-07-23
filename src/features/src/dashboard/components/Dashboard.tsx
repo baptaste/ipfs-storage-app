@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useLocation } from "react-router-dom";
-import { FeaturesLinks } from "../../../components";
-import { FeaturesRoutes } from "../../../routes";
+import { FeaturesNav } from "../../../components";
+import { FeaturesRoutes } from "../../../manager";
 
 export function Dashboard() {
   const location = useLocation();
@@ -13,7 +13,7 @@ export function Dashboard() {
           location.pathname === FeaturesRoutes.dashboard ? "block" : "hidden"
         } md:hidden`}
       >
-        <FeaturesLinks />
+        <FeaturesNav />
       </div>
     </div>
   );

@@ -6,15 +6,16 @@ import {
   HomeIcon,
   SettingsIcon,
   LogoutIcon,
+  NoteIcon,
 } from "../../../components/Common";
 import { isMobile } from "../../../utils/browser";
 import { updateView } from "../../../utils/viewTransition";
-import { FeaturesRoutes } from "../../routes";
-import { FeatureNames, useManager } from "../../store";
+
+import { FeatureNames, FeaturesRoutes, useManager } from "../../manager";
 import { capitalize } from "../../../utils/string";
 import { logout, useAuth } from "../../src/auth";
 
-interface FeatureLink {
+interface NavItem {
   available: boolean;
   name: FeatureNames | string;
   route: FeaturesRoutes | null;
@@ -22,13 +23,13 @@ interface FeatureLink {
   className?: string;
 }
 
-export function FeaturesLinks() {
+export function FeaturesNav() {
   const navigate = useNavigate();
   const location = useLocation();
   const manager = useManager();
   const { setAccessToken } = useAuth();
 
-  const handleFeatureLinkClick = (route: FeaturesRoutes | null) => {
+  const handleNavItemClick = (route: FeaturesRoutes | null) => {
     if (route == null || location.pathname === route) return;
     if (!isMobile()) return navigate(route);
     updateView("new", () => navigate(route));
@@ -53,7 +54,7 @@ export function FeaturesLinks() {
     }
   };
 
-  const links: FeatureLink[] = [
+  const links: NavItem[] = [
     {
       name: capitalize(FeatureNames.dashboard),
       route: FeaturesRoutes.dashboard,
@@ -66,24 +67,30 @@ export function FeaturesLinks() {
       icon: <PasswordIcon active={location.pathname.includes(FeaturesRoutes.passwords)} />,
       available: true,
     },
+    {
+      name: capitalize(FeatureNames.notes),
+      route: FeaturesRoutes.notes,
+      icon: <NoteIcon active={location.pathname.includes(FeaturesRoutes.notes)} />,
+      available: true,
+    },
     // Coming soon
-    { name: "Notes", route: null, icon: <UnavailableIcon />, available: false },
+    // { name: "Notes", route: null, icon: <UnavailableIcon />, available: false },
     { name: "Media", route: null, icon: <UnavailableIcon />, available: false },
     { name: "Finance", route: null, icon: <UnavailableIcon />, available: false },
   ];
 
   return (
-    <nav className="FeaturesLinks w-ful h-full flex flex-col justify-between ">
+    <nav className="FeaturesNav w-ful h-full flex flex-col justify-between ">
       <ul className="w-full flex flex-col gap-2">
         {links.map((link) => (
           <li
             key={link.name}
             id={link.name}
-            className="w-full py-2 bg-slate-900 hover:bg-slate-800 transition-colors"
+            className="w-full py-2 md:hover:bg-slate-800 hover:bg-slate-200 transition-colors"
           >
             <button
               key={link.name}
-              onClick={() => handleFeatureLinkClick(link.route)}
+              onClick={() => handleNavItemClick(link.route)}
               className={`flex items-center justify-between gap-6 px-6 text-slate-50 ${
                 link.available ? "cursor-pointer" : "cursor-default"
               }`}
@@ -102,16 +109,22 @@ export function FeaturesLinks() {
       </ul>
 
       <ul className="flex flex-col gap-2">
-        <li id="settings" className="w-full py-2 bg-slate-900 hover:bg-slate-800 transition-colors">
+        <li
+          id="settings"
+          className="w-full py-2 md:hover:bg-slate-800 hover:bg-slate-200 transition-colors"
+        >
           <button
-            onClick={() => handleFeatureLinkClick(FeaturesRoutes.settings)}
+            onClick={() => handleNavItemClick(FeaturesRoutes.settings)}
             className="flex items-center justify-between gap-6 px-6 text-slate-50"
           >
             <SettingsIcon active={location.pathname === FeaturesRoutes.settings} />
             <p className="text-base text-slate-900 md:text-slate-50">Settings</p>
           </button>
         </li>
-        <li id="logout" className="w-full py-2 bg-slate-900 hover:bg-slate-800 transition-colors">
+        <li
+          id="logout"
+          className="w-full py-2 md:hover:bg-slate-800 hover:bg-slate-200 transition-colors"
+        >
           <button
             onClick={onLogout}
             className="flex items-center justify-between gap-6 px-6 text-slate-50"

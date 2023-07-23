@@ -33,16 +33,15 @@ export function PasswordsProvider(props?: PasswordsProviderProps) {
     }
   }, [loggedIn]);
 
-  const passwordsValue = React.useMemo(
-    () => ({
+  const passwordsValue = React.useMemo(() => {
+    return {
       passwords: state.passwords,
       password: state.password,
       error: state.error,
       loading: state.loading,
       dispatch,
-    }),
-    [state.passwords, state.password, state.error, state.loading, dispatch],
-  );
+    };
+  }, [state.passwords, state.password, state.error, state.loading, dispatch]);
 
   return (
     <PasswordsContext.Provider value={passwordsValue}>{props?.children}</PasswordsContext.Provider>

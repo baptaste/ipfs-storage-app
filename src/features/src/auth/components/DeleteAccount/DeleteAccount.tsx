@@ -4,7 +4,7 @@ import { DangerZone } from "../../../../../components/Common";
 import { deleteAccount } from "../../api";
 import { setHeaderToken } from "../../../../../lib/axios";
 import { useAuth } from "../../store";
-import { useManager } from "../../../../store";
+import { useManager } from "../../../../manager";
 
 export function DeleteAccount() {
   const { user, setUser, setAccessToken } = useAuth();

@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { LockClosedIcon } from "@heroicons/react/24/outline";
 
 interface IPasswordIconProps {
@@ -7,14 +8,12 @@ interface IPasswordIconProps {
   onClick?: () => void;
 }
 
-export function PasswordIcon({
-  active = false,
-  size = "medium",
-  onClick = () => {},
-}: IPasswordIconProps) {
+export function PasswordIcon(props: IPasswordIconProps) {
+  const { active = false, size = "medium", onClick } = props;
+
   return (
     <div
-      className={`flex items-center justify-center p-2 rounded-lg cursor-pointer ${
+      className={`w-10 h-10 flex items-center justify-center p-2 rounded-lg cursor-pointer ${
         active ? "bg-primary" : "bg-slate-700/[.7]"
       }`}
     >
