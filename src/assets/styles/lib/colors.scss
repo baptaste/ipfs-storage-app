@@ -2,40 +2,44 @@
 
 // vars
 $colorPrimary: #0f6cd8;
+$colorPrimaryHover: #0d54a6;
 $colorWhite: #ffffff;
 $colorBlack: #001524; //Rich Black
 
 @layer utilities {
-	// colors
-	.color-primary {
-		color: $colorPrimary;
-	}
-	.color-white {
-		color: $colorWhite;
-	}
-	.color-black {
-		color: $colorBlack;
-	}
+  // colors
+  .color-primary {
+    color: $colorPrimary;
+  }
+  .color-white {
+    color: $colorWhite;
+  }
+  .color-black {
+    color: $colorBlack;
+  }
 
-	// backgrounds
-	.bg-primary {
-		background-color: $colorPrimary;
-	}
-	.bg-white {
-		background-color: $colorWhite;
-	}
-	.bg-black {
-		background-color: $colorBlack;
-	}
+  // backgrounds
+  .bg-primary {
+    background-color: $colorPrimary;
+  }
+  .bg-primary-hover {
+    background-color: $colorPrimaryHover;
+  }
+  .bg-white {
+    background-color: $colorWhite;
+  }
+  .bg-black {
+    background-color: $colorBlack;
+  }
 
-	// borders
-	.border-primary {
-		border-color: $colorPrimary;
-	}
-	.border-white {
-		border-color: $colorWhite;
-	}
-	.border-black {
-		border-color: $colorBlack;
-	}
+  // borders
+  .border-primary {
+    border-color: $colorPrimary;
+  }
+  .border-white {
+    border-color: $colorWhite;
+  }
+  .border-black {
+    border-color: $colorBlack;
+  }
 }

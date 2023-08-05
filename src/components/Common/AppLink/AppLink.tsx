@@ -2,15 +2,17 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 
 enum LinkThemes {
-  primary = "bg-primary color-white border-primary",
-  secondary = "bg-white color-primary border-primary",
+  primary = "border-solid border-2 bg-primary hover:bg-primary-hover color-white border-primary",
+  secondary = "border-solid border-2 bg-white color-primary border-primary",
+  none = "",
 }
 
 export interface AppLinkProps {
   path: string;
-  text: string;
   classes?: string;
-  theme?: "primary" | "secondary";
+  children?: React.ReactNode;
+  text?: string;
+  theme?: "primary" | "secondary" | "none";
   // disabled?: boolean;
   // icon?: JSX.Element | null;
   // onClick?: ((e?: React.MouseEvent) => void) | undefined;
@@ -19,14 +21,15 @@ export interface AppLinkProps {
 }
 
 export function AppLink(props: AppLinkProps) {
-  const { path, text, theme = "primary", classes = "" } = props;
+  const { path, text = "", classes = "", children, theme = "primary" } = props;
   const linkTheme = LinkThemes[theme];
-  const defaultClasses = `w-full md:w-[260px] flex items-center justify-center text-center p-3 mt-12 font-bold text-lg rounded-md drop-shadow-md cursor-pointer border-solid border-2 ${linkTheme}`;
-  const className = classes.length ? `${classes} ${linkTheme}` : defaultClasses;
+  const defaultClasses = `w-full md:min-w-[260px] flex items-center justify-center gap-4 text-center p-3 font-bold text-lg rounded-md drop-shadow-md cursor-pointer transition-colors ${linkTheme}`;
+  const className = classes.length ? `${defaultClasses} ${classes}` : defaultClasses;
 
   return (
     <Link to={path} className={className}>
       {text}
+      {children}
     </Link>
   );
 }

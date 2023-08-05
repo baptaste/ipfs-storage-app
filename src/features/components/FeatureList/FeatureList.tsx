@@ -14,7 +14,6 @@ import { INotes } from "../../src/notes/types";
 import { hideOnInaccurateRoutePath } from "../../../utils/views";
 import { FeatureLink } from "../FeatureLink";
 import { useFeatureList } from "../../hooks/useFeatureList";
-import { localStorage } from "../../../utils/localStorage";
 
 export interface FeatureListProps {
   data: IPasswords | INotes;
@@ -41,10 +40,7 @@ export function FeatureList(props: FeatureListProps) {
   const itemSortKey: string = name === FeatureNames.passwords ? "displayed_name" : "title";
 
   const values = useFeatureList(data, filterSort, itemSortKey, name, deferredSearchValue);
-
-  // if (!data.length) {
-  //   return <EmptyFeature name={name} redirectTo={route} />;
-  // }
+  // const suggestedItems: IFeatureItem[] | null = localStorage.get(`${name}_suggested`);
 
   if (error) {
     return (
@@ -64,18 +60,6 @@ export function FeatureList(props: FeatureListProps) {
 
   const handleSearchValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value.toLowerCase());
-  };
-
-  const addItemToLocalStorage = (item: IFeatureItem) => {
-    const suggestedItems: IFeatureItem[] | null = localStorage.get(`${name}_suggested`);
-    if (!suggestedItems) {
-      return localStorage.set(`${name}_suggested`, [{ ...item }]);
-    }
-    if (suggestedItems.length === 3) {
-      suggestedItems.shift();
-    }
-    suggestedItems.push(item);
-    localStorage.set(`${name}_suggested`, suggestedItems);
   };
 
   const dispatchOwnContextItem = (item: IFeatureItem) => {
@@ -105,7 +89,7 @@ export function FeatureList(props: FeatureListProps) {
             onFocus={() => setSearchFocused(true)}
             onCancel={() => setSearchFocused(false)}
             onBlur={() => {
-              if (!suggestionListVisible) {
+              if (!suggestionListVisible && !values.searchList.length) {
                 setSearchFocused(false);
               }
             }}
@@ -128,8 +112,11 @@ export function FeatureList(props: FeatureListProps) {
                 path={`${route}/${item._id}`}
                 icon={<PasswordIcon active={item.plaintext !== null} size="small" />}
                 onClick={() => {
-                  addItemToLocalStorage(item);
+                  console.log("Search list, on item click");
+                  values.addItemToLocalStorage(item);
                   dispatchOwnContextItem(item);
+                  setSearchValue("");
+                  setSearchFocused(false);
                 }}
               />
             ))}
@@ -145,7 +132,7 @@ export function FeatureList(props: FeatureListProps) {
             <p className="text-lg text-slate-500">Recent search</p>
           </div>
           <ul className="w-full flex flex-col items-center">
-            {values.suggestionList.map((item) => (
+            {values.suggestionList.reverse().map((item) => (
               <FeatureLink
                 key={item._id}
                 item={item}
@@ -163,23 +150,21 @@ export function FeatureList(props: FeatureListProps) {
       {/* Date list */}
       <section className="Datelist w-full flex flex-col gap-2">
         {filterSort === "latest" ? (
-          <p
-            role="button"
+          <button
             onClick={() => setFilterSort("oldest")}
             className="flex items-center gap-2 pl-6 text-lg text-slate-500 cursor-pointer"
           >
             <TimeSortIcon direction="up" />
             Latest
-          </p>
+          </button>
         ) : (
-          <p
-            role="button"
+          <button
             onClick={() => setFilterSort("latest")}
             className="flex items-center gap-2 pl-6 text-lg text-slate-500 cursor-pointer"
           >
             <TimeSortIcon direction="down" />
             Oldest
-          </p>
+          </button>
         )}
         <ul className="w-full flex flex-col items-center">
           {values.dateList.map((item) => (

@@ -20,27 +20,33 @@ export function PasswordListRoute() {
   const { passwords, password, loading, error, dispatch } = usePasswords();
 
   React.useEffect(() => {
-    manager.dispatch({
-      type: "set_feature",
-      feature: {
-        ...initialFeature,
-        empty: !passwords.length,
-        name: FeatureNames.passwords,
-        route: FeaturesRoutes.passwords,
-        type: FeatureType.password,
-      },
-    });
-  }, [passwords]);
+    if (manager.feature.name !== FeatureNames.passwords) {
+      manager.dispatch({
+        type: "set_feature",
+        feature: {
+          ...initialFeature,
+          empty: !passwords.length,
+          name: FeatureNames.passwords,
+          route: FeaturesRoutes.passwords,
+          type: FeatureType.password,
+        },
+      });
+    }
+  }, [JSON.stringify(passwords), manager.feature.name]);
 
   React.useEffect(() => {
-    console.log("••••••••• PasswordListRoute - password", password);
+    // console.log("••••••••• PasswordListRoute - password", password);
     if (password && location.pathname === FeaturesRoutes.passwords) {
-      console.log("••••••••• PasswordListRoute - reset password item");
+      // console.log("••••••••• PasswordListRoute - reset password item");
       dispatch({ type: FeatureType.password, password: null });
     }
-  }, [password, location.pathname]);
+  }, [JSON.stringify(password), location.pathname]);
 
-  if (!passwords.length && manager.feature.empty) {
+  if (
+    !passwords.length &&
+    manager.feature.empty &&
+    location.pathname !== `${FeaturesRoutes.passwords}/create`
+  ) {
     return (
       <EmptyFeature
         name={FeatureNames.passwords}

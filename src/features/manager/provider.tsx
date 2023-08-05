@@ -39,7 +39,7 @@ export function ManagerProvider({ children }: ProviderProps) {
         });
       }, 5000);
     }
-  }, [notification]);
+  }, [JSON.stringify(notification)]);
 
   return <ManagerContext.Provider value={manager}>{children}</ManagerContext.Provider>;
 }

@@ -43,7 +43,7 @@ export function Password({ password }: { password: IPassword }) {
       manager.dispatch({
         type: "set_notification",
         notification: {
-          status: "success",
+          status: "error",
           content: "An error occurred while deleting your password. Please try again.",
         },
       });

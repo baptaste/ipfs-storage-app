@@ -11,6 +11,7 @@ interface EmptyFeatureProps {
 
 export function EmptyFeature(props: EmptyFeatureProps) {
   const { name, redirectTo } = props;
+
   return (
     <div className="EmptyScreen w-full h-full flex flex-col items-center justify-between gap-6">
       <h1 className="text-xl font-bold mb-5">Wow, it's empty here</h1>

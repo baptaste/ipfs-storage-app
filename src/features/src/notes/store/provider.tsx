@@ -33,16 +33,15 @@ export function NotesProvider(props?: NotesProviderProps) {
     }
   }, [loggedIn]);
 
-  const notesValue = React.useMemo(
-    () => ({
+  const notesValue = React.useMemo(() => {
+    return {
       notes: state.notes,
       note: state.note,
       error: state.error,
       loading: state.loading,
       dispatch,
-    }),
-    [state.notes, state.note, state.error, state.loading, dispatch],
-  );
+    };
+  }, [state.notes, state.note, state.error, state.loading, dispatch]);
 
   return <NotesContext.Provider value={notesValue}>{props?.children}</NotesContext.Provider>;
 }

@@ -18,41 +18,50 @@ export function NoteListRoute() {
   const { notes, note, loading, error, dispatch } = useNotes();
 
   React.useEffect(() => {
-    manager.dispatch({
-      type: "set_feature",
-      feature: {
-        ...initialFeature,
-        empty: !notes.length,
-        name: FeatureNames.notes,
-        route: FeaturesRoutes.notes,
-        type: FeatureType.note,
-      },
-    });
-  }, [notes]);
+    if (manager.feature.name !== FeatureNames.notes) {
+      manager.dispatch({
+        type: "set_feature",
+        feature: {
+          ...initialFeature,
+          empty: !notes.length,
+          name: FeatureNames.notes,
+          route: FeaturesRoutes.notes,
+          type: FeatureType.note,
+        },
+      });
+    }
+  }, [JSON.stringify(notes), manager.feature.name]);
 
   React.useEffect(() => {
-    console.log("••••••••• NoteListRoute - note", note);
+    // console.log("••••••••• NoteListRoute - note", note);
     if (note && location.pathname === FeaturesRoutes.notes) {
-      console.log("••••••••• NoteListRoute - reset note item");
+      //  console.log("••••••••• NoteListRoute - reset note item");
       dispatch({ type: FeatureType.note, note: null });
     }
-  }, [note, location.pathname]);
+  }, [JSON.stringify(note), location.pathname]);
 
-  if (!notes.length && manager.feature.empty) {
+  if (
+    !notes.length &&
+    manager.feature.empty &&
+    location.pathname !== `${FeaturesRoutes.notes}/create`
+  ) {
     return <EmptyFeature name={FeatureNames.notes} redirectTo={`${FeaturesRoutes.notes}/create`} />;
   }
 
   return (
     <>
-      <FeatureList
-        type={FeatureType.note}
-        data={notes}
-        dispatch={dispatch}
-        loading={loading}
-        error={error}
-        name={FeatureNames.notes}
-        route={FeaturesRoutes.notes}
-      />
+      {notes.length && !manager.feature.empty ? (
+        <FeatureList
+          type={FeatureType.note}
+          data={notes}
+          dispatch={dispatch}
+          loading={loading}
+          error={error}
+          name={FeatureNames.notes}
+          route={FeaturesRoutes.notes}
+        />
+      ) : null}
+
       <Outlet />
     </>
   );

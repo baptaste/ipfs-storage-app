@@ -9,7 +9,7 @@ import "./assets/styles/index.scss";
 
 export default function App() {
   return (
-    <div className="App">
+    <div className="App bg-slate-50">
       <AppProvider>
         <Router>
           <React.Suspense fallback={<Spinner size="screen" />}>

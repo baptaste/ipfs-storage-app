@@ -16,6 +16,7 @@ export function createNote(note: IEncryptedData, title?: string): Promise<Create
       encrypted: arrayBufferToUint8Array(note.encrypted),
     },
   };
+
   if (title) {
     data = { ...data, title };
   }

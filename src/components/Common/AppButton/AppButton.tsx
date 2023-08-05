@@ -23,7 +23,7 @@ enum ButtonThemes {
   quaternary = "bg-slate-50 text-slate-900 border-slate-900",
   disabled = "bg-slate-200 text-slate-900/30 border-slate-400",
   success = "bg-green-700 text-slate-50 border-green-700",
-  danger = "bg-red-500 text-slate-50 border-red-500",
+  danger = "bg-slate-50 text-red-500 border-red-500",
 }
 
 export function AppButton(props: IButtonProps) {

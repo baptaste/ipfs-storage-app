@@ -75,7 +75,7 @@ export function AppTextArea(props: AppTextAreaProps) {
           name={name}
           placeholder={placeholder}
           rows={5}
-          maxLength={255}
+          maxLength={500}
           className={`w-full break-all rounded-md text-base ${getInputColor()} bg-transparent focus:outline-none`.trim()}
           disabled={disabled}
           required={required}
