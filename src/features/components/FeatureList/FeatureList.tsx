@@ -1,13 +1,7 @@
 import * as React from "react";
 
 import { FeatureNames, FeatureType, FeaturesRoutes, IFeatureItem } from "../../manager";
-import {
-  ClockIcon,
-  PasswordIcon,
-  SearchInput,
-  Spinner,
-  TimeSortIcon,
-} from "../../../components/Common";
+import { ClockIcon, SearchInput, Spinner, TimeSortIcon } from "../../../components/Common";
 import { IPasswords } from "../../src/passwords/types";
 import { INotes } from "../../src/notes/types";
 
@@ -28,8 +22,6 @@ export interface FeatureListProps {
 export function FeatureList(props: FeatureListProps) {
   const { data, name, route, type, dispatch, loading, error } = props;
 
-  // const [items, setItems] = React.useState<IPasswords | INotes | []>(data);
-
   const [filterSort, setFilterSort] = React.useState<"latest" | "oldest">("latest");
   const [searchValue, setSearchValue] = React.useState<string>("");
   const [searchFocused, setSearchFocused] = React.useState<boolean>(false);
@@ -40,7 +32,6 @@ export function FeatureList(props: FeatureListProps) {
   const itemSortKey: string = name === FeatureNames.passwords ? "displayed_name" : "title";
 
   const values = useFeatureList(data, filterSort, itemSortKey, name, deferredSearchValue);
-  // const suggestedItems: IFeatureItem[] | null = localStorage.get(`${name}_suggested`);
 
   if (error) {
     return (
@@ -110,9 +101,9 @@ export function FeatureList(props: FeatureListProps) {
                 key={item._id}
                 item={item}
                 path={`${route}/${item._id}`}
-                icon={<PasswordIcon active={item.plaintext !== null} size="small" />}
+                type={type}
+                // icon={<PasswordIcon active={item.plaintext !== null} size="small" />}
                 onClick={() => {
-                  console.log("Search list, on item click");
                   values.addItemToLocalStorage(item);
                   dispatchOwnContextItem(item);
                   setSearchValue("");
@@ -137,6 +128,7 @@ export function FeatureList(props: FeatureListProps) {
                 key={item._id}
                 item={item}
                 path={`${route}/${item._id}`}
+                type={type}
                 onClick={() => {
                   dispatchOwnContextItem(item);
                   setSearchFocused(false);
@@ -172,6 +164,7 @@ export function FeatureList(props: FeatureListProps) {
               key={item._id}
               item={item}
               path={`${route}/${item._id}`}
+              type={type}
               onClick={() => dispatchOwnContextItem(item)}
             />
           ))}
@@ -196,6 +189,7 @@ export function FeatureList(props: FeatureListProps) {
                   key={item._id}
                   item={item}
                   path={`${route}/${item._id}`}
+                  type={type}
                   onClick={() => dispatchOwnContextItem(item)}
                 />
               ))}

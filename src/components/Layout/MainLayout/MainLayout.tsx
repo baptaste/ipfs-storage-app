@@ -35,7 +35,7 @@ export function MainLayout(props: MainLayoutProps) {
     <div
       className={`MainLayout relative top-0 left-0 md:left-[245px] w-full h-auto md:w-[calc(100%-245px)] min-h-screen flex justify-${
         manager.feature.empty ? "center" : "between"
-      } items-center overflow-y-scroll bg-slate-50 text-slate-900 px-4 pt-[100px] pb-20 md:px-0 md:pt-0 md:pb-10`.trim()}
+      } items-start overflow-y-scroll bg-slate-50 text-slate-900 px-4 pt-[100px] pb-20 md:px-0 md:pt-0 md:pb-10`.trim()}
     >
       <HeaderNav />
       <Sidebar>

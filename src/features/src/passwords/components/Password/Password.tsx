@@ -8,7 +8,7 @@ import { deletePassword } from "../../api";
 import type { IPassword } from "../../types";
 import { DecryptablePassword } from "../DecryptablePassword";
 import { useAuth } from "../../../auth";
-import { useManager } from "../../../../manager";
+import { FeaturesRoutes, useManager } from "../../../../manager";
 
 export function Password({ password }: { password: IPassword }) {
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ export function Password({ password }: { password: IPassword }) {
           content: "Password deleted successfully !",
         },
       });
-      navigate("/dashboard/passwords");
+      navigate(FeaturesRoutes.passwords);
     } else {
       setLoading(false);
       setError(res.message ? res.message : "");

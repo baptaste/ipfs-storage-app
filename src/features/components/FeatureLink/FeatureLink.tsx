@@ -3,21 +3,33 @@ import { Link, useLocation } from "react-router-dom";
 
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import { formatDate } from "../../../utils/date";
-import { UnavailableIcon } from "../../../components/Common";
-import { IFeatureItem } from "../../manager";
+import { NoteIcon, PasswordIcon, UnavailableIcon } from "../../../components/Common";
+import { FeatureType, IFeatureItem } from "../../manager";
 
 interface IFeatureLinkProps {
   item: IFeatureItem;
   path: string;
   icon?: React.JSX.Element;
+  type?: FeatureType;
   onClick?: () => void;
 }
 
+function getIcon(type?: FeatureType, active?: boolean) {
+  switch (type) {
+    case FeatureType.password:
+      return <PasswordIcon active={active} />;
+    case FeatureType.note:
+      return <NoteIcon active={active} />;
+    default:
+      return <UnavailableIcon />;
+  }
+}
+
 export function FeatureLink(props: IFeatureLinkProps) {
-  const { item, path, icon, onClick } = props;
+  const { item, path, icon, type, onClick } = props;
   const { pathname } = useLocation();
   const selected = pathname.includes(item._id);
-  const linkIcon = icon || <UnavailableIcon onClick={() => {}} />;
+  const linkIcon = icon || getIcon(type, item.visible);
 
   return (
     <li
