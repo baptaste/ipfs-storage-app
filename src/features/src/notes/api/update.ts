@@ -3,18 +3,18 @@ import { arrayBufferToUint8Array } from "../../../../utils/bytes";
 import { IEncryptedData } from "../../../../utils/encryption";
 import type { INote } from "../types";
 
-export type PatchNoteResponse = {
+export type UpdateNoteResponse = {
   success: boolean;
   note?: INote;
   updateType?: string;
   message?: string;
 };
 
-export function patchNote(
+export function updateNote(
   encryptionId: string,
   note?: IEncryptedData,
   title?: string,
-): Promise<PatchNoteResponse> {
+): Promise<UpdateNoteResponse> {
   return new Promise((resolve, reject) => {
     let data: any = {
       encryptionId,
@@ -40,7 +40,7 @@ export function patchNote(
         resolve(res.data);
       })
       .catch((err) => {
-        console.log("api - patchNote, catch err:", err);
+        console.log("api - updateNote, catch err:", err);
         reject(err);
       });
   });

@@ -1,5 +1,5 @@
 import httpClient from "../../../../lib/axios";
-import type { User, UserPreferences } from "./types";
+import type { User, UserPreferences } from "../../../types";
 
 export type RegisterResponse = {
   success: boolean;
@@ -7,7 +7,7 @@ export type RegisterResponse = {
   message?: string;
 };
 
-export function register(
+export function registerUser(
   email: string,
   password: string,
   preferences: UserPreferences,

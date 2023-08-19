@@ -1,10 +1,11 @@
 import * as React from "react";
 import { AuthContext } from "./context";
 import { getAccessToken } from "../api";
-import type { User } from "../api/types";
+
 import { setHeaderToken } from "../../../../lib/axios";
 import { toastError } from "../../../../lib/toast";
 import { retrieveUserEncryptionKey } from "../../../../utils/encryption";
+import { User } from "../../../types";
 
 interface AuthProviderProps {
   children?: React.ReactNode;

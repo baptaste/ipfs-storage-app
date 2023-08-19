@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { lazyImport } from "../utils/imports";
 
 const Login = lazyImport("../features/src/auth", "Login");
-const Register = lazyImport("../features/src/auth", "Register");
+const Register = lazyImport("../features/src/account", "Register");
 
 function PublicRoutes() {
   return (
@@ -16,7 +16,8 @@ function PublicRoutes() {
 
 export const publicRoutes = [
   {
-    path: "/auth/*",
+    // path: "/auth/*",
+    path: "/*",
     element: <PublicRoutes />,
   },
 ];

@@ -4,6 +4,7 @@ import { AppButton, Spinner } from "../../../../../components/Common";
 import { logout } from "../../api";
 import { useAuth } from "../../store";
 import { useManager } from "../../../../manager";
+import { localStorage } from "../../../../../utils/localStorage";
 
 export function Logout() {
   const navigate = useNavigate();
@@ -16,6 +17,8 @@ export function Logout() {
     if (res.success && res.accessToken === null) {
       manager.dispatch({ type: "set_loading", loading: false });
       setAccessToken(null);
+      localStorage.clear("ipfs_storage_passwords_suggested");
+      localStorage.clear("ipfs_storage_notes_suggested");
       navigate("/");
     } else {
       manager.dispatch({ type: "set_loading", loading: false });

@@ -6,8 +6,8 @@ import { InputPassword, AppButton } from "../../../../../components/Common";
 import { VisiterLayout } from "../../../../../components/Layout";
 import { setHeaderToken } from "../../../../../lib/axios";
 import { useAuth } from "../../store";
-import { loginUser } from "../../services/loginUser";
-import { useManager } from "../../../../manager";
+import { loginUser } from "../../services";
+import { FeaturesRoutes, useManager } from "../../../../manager";
 
 interface ILoginState {
   [key: string]: string | boolean;
@@ -81,7 +81,7 @@ export function Login() {
         <div>
           <h1 className="w-full text-center text-2xl font-bold">Welcome back !</h1>
           Not yet registered ?{" "}
-          <Link to="/auth/register" className="font-bold">
+          <Link to={FeaturesRoutes.register} className="font-bold">
             Sign Up
           </Link>
         </div>

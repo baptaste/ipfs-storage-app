@@ -3,9 +3,9 @@ import { MainLayout } from "../../../../components/Layout";
 import { lazyImport } from "../../../../utils/imports";
 import { FeatureNames, FeaturesRoutes, initialFeature, useManager } from "../../../manager";
 
-const Settings = lazyImport("../features/src/settings", "Settings");
+const Account = lazyImport("../features/src/account", "Account");
 
-export function SettingsRoute() {
+export function AccountRoute() {
   const manager = useManager();
 
   React.useEffect(() => {
@@ -13,15 +13,15 @@ export function SettingsRoute() {
       type: "set_feature",
       feature: {
         ...initialFeature,
-        name: FeatureNames.settings,
-        route: FeaturesRoutes.settings,
+        name: FeatureNames.account,
+        route: FeaturesRoutes.account,
       },
     });
   }, []);
 
   return (
     <MainLayout>
-      <Settings />
+      <Account />
     </MainLayout>
   );
 }

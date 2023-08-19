@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { AppLink } from "../../../components/Common";
 import { VisiterLayout } from "../../../components/Layout";
+import { FeaturesRoutes } from "../../manager";
 
 export function Landing() {
   return (
@@ -19,7 +20,7 @@ export function Landing() {
           ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
           ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </p>
-        <AppLink path="/auth/login" text="Store data now" />
+        <AppLink path={FeaturesRoutes.login} text="Store data now" />
       </div>
     </VisiterLayout>
   );

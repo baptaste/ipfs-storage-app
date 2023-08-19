@@ -1,18 +1,19 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { Cog6ToothIcon, HomeIcon } from "@heroicons/react/24/outline";
+import { FeatureNames, FeaturesRoutes } from "../../../features/manager";
 
 export function TabNav() {
   const links = [
     {
-      path: "/dashboard",
-      name: "Dashboard",
+      path: FeaturesRoutes.dashboard,
+      name: FeatureNames.dashboard,
       icon: <HomeIcon className="w-7 h-7 text-slate-900" />,
       containerClass: "w-14 h-14 flex justify-center items-center",
     },
     {
-      path: "/settings",
-      name: "Settings",
+      path: FeaturesRoutes.account,
+      name: FeatureNames.account,
       icon: <Cog6ToothIcon className="w-7 h-7 text-slate-900" />,
       containerClass: "w-14 h-14 flex justify-center items-center",
     },

@@ -110,15 +110,15 @@ export function FeaturesNav() {
 
       <ul className="flex flex-col gap-2">
         <li
-          id="settings"
+          id="account"
           className="w-full py-2 md:hover:bg-slate-800 hover:bg-slate-200 transition-colors"
         >
           <button
-            onClick={() => handleNavItemClick(FeaturesRoutes.settings)}
+            onClick={() => handleNavItemClick(FeaturesRoutes.account)}
             className="flex items-center justify-between gap-6 px-6 text-slate-50"
           >
-            <SettingsIcon active={location.pathname === FeaturesRoutes.settings} />
-            <p className="text-base text-slate-900 md:text-slate-50">Settings</p>
+            <SettingsIcon active={location.pathname === FeaturesRoutes.account} />
+            <p className="text-base text-slate-900 md:text-slate-50">Account</p>
           </button>
         </li>
         <li

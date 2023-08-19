@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import type { User } from "../api/types";
+import { User } from "../../../types";
 
 export interface IAuthContext {
   accessToken: string | null;

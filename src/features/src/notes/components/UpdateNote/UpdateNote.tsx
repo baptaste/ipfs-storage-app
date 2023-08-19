@@ -3,7 +3,7 @@ import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom"
 
 import { AppButton, AppInput, AppTextArea } from "../../../../../components/Common";
 import { useNotes } from "../../store";
-import { patchNote } from "../../api";
+import { updateNote } from "../../api";
 import { useAuth } from "../../../auth";
 import { FeaturesRoutes, useManager } from "../../../../manager";
 import { IEncryptedData, encryptText } from "../../../../../utils/encryption";
@@ -53,7 +53,7 @@ export function UpdateNote() {
           payload = { ...payload, note: encryptionData as IEncryptedData };
         }
       }
-      const res = await patchNote(currentNote.encryption_id, payload.note, payload.title);
+      const res = await updateNote(currentNote.encryption_id, payload.note, payload.title);
       if (res.success) {
         setIsLoading(false);
         dispatch({

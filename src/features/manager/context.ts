@@ -1,32 +1,25 @@
 import { createContext, useContext } from "react";
 import { IpfsDataType } from "../types";
 
-// const ManagerContext = {
-// auth: AuthContext,
-// passwords: PasswordsContext,
-// };
-
 export enum FeatureType {
   note = "note",
   password = "password",
 }
 
 export enum FeatureNames {
-  auth = "auth",
+  account = "account",
   dashboard = "dashboard",
   notes = "notes",
   passwords = "passwords",
-  settings = "settings",
 }
 
 export enum FeaturesRoutes {
-  auth = "/auth",
-  login = "/auth/login",
-  register = "/auth/register",
+  account = "/account",
+  login = "/login",
+  register = "/register",
   dashboard = "/dashboard",
   notes = "/dashboard/notes",
   passwords = "/dashboard/passwords",
-  settings = "/settings",
 }
 
 export interface IFeature {

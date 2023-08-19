@@ -1,10 +1,11 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { DangerZone } from "../../../../../components/Common";
-import { deleteAccount } from "../../api";
+
 import { setHeaderToken } from "../../../../../lib/axios";
-import { useAuth } from "../../store";
-import { useManager } from "../../../../manager";
+import { useAuth } from "../../../auth/store";
+import { FeaturesRoutes, useManager } from "../../../../manager";
+import { deleteUser } from "../../api";
 
 export function DeleteAccount() {
   const { user, setUser, setAccessToken } = useAuth();
@@ -18,14 +19,14 @@ export function DeleteAccount() {
 
     setLoading(true);
 
-    const res = await deleteAccount(user._id);
+    const res = await deleteUser(user._id);
 
     if (res.success) {
       setLoading(false);
       setUser(null);
       setAccessToken(null);
       setHeaderToken(null);
-      navigate("/auth/login");
+      navigate(FeaturesRoutes.login);
       manager.dispatch({
         type: "set_notification",
         notification: {

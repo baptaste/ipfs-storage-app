@@ -1,5 +1,4 @@
-import { login, LoginResponse } from "../api";
-import { getMasterPasswordHash } from "../api/masterPassword";
+import { getMasterPasswordHash, login, LoginResponse } from "../api";
 import { retrieveUserEncryptionKey } from "../../../../utils/encryption";
 import { verifyMasterPassword } from "./masterPassword";
 

@@ -1,5 +1,5 @@
 import httpClient from "../../../../lib/axios";
-import type { User } from "./types";
+import { User } from "../../../types";
 
 export type LoginResponse = {
   success: boolean;

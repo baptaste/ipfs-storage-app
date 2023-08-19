@@ -15,9 +15,9 @@ const NoteListRoute = lazyImport("../features/src/notes", "NoteListRoute");
 const CreateNoteRoute = lazyImport("../features/src/notes", "CreateNoteRoute");
 const NoteRoute = lazyImport("../features/src/notes", "NoteRoute");
 const UpdateNoteRoute = lazyImport("../features/src/notes", "UpdateNoteRoute");
-// Settings
-const SettingsRoute = lazyImport("../features/src/settings", "SettingsRoute");
-const ChangePasswordRoute = lazyImport("../features/src/settings", "ChangePasswordRoute");
+// Account
+const AccountRoute = lazyImport("../features/src/account", "AccountRoute");
+const ChangePasswordRoute = lazyImport("../features/src/account", "ChangePasswordRoute");
 
 function ProtectedRoutes() {
   return (
@@ -44,8 +44,8 @@ function ProtectedRoutes() {
         {/* Others features */}
       </Route>
 
-      <Route path="settings">
-        <Route index element={<SettingsRoute />} />
+      <Route path="account">
+        <Route index element={<AccountRoute />} />
         <Route path="password" element={<ChangePasswordRoute />} />
       </Route>
     </Routes>

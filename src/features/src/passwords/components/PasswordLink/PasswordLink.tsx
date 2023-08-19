@@ -6,6 +6,7 @@ import type { IPassword } from "../../types";
 import { formatDate } from "../../../../../utils/date";
 import { PasswordIcon } from "../../../../../components/Common";
 import { usePasswords } from "../../store";
+import { FeaturesRoutes } from "../../../../manager";
 
 interface IPasswordLinkProps {
   password: IPassword;
@@ -25,14 +26,14 @@ export function PasswordLink({ password, onClick = () => {} }: IPasswordLinkProp
   return (
     <li
       id={password._id}
+      role="button"
       onClick={onPasswordLinkClick}
       className={`PasswordLink w-full px-6 py-2 border-b border-solid border-1 border-slate-300 hover:bg-slate-200 transition-colors ${
         selected ? "bg-slate-200" : ""
       }`}
-      role="button"
     >
       <Link
-        to={`/dashboard/passwords/${password._id}`}
+        to={`${FeaturesRoutes.passwords}/${password._id}`}
         state={{ from: pathname, pageName: password.displayed_name }}
         className="flex items-center justify-between"
       >

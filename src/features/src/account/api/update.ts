@@ -1,23 +1,22 @@
 import httpClient from "../../../../lib/axios";
 import { User } from "../../../types";
 
-export type AccessTokenResponse = {
+interface UpdateUserResponse {
   success: boolean;
-  user?: User;
-  accessToken?: null | string;
+  user: User;
   message?: string;
-};
+}
 
-export function getAccessToken(): Promise<AccessTokenResponse> {
+export function updateUser(user: User): Promise<UpdateUserResponse> {
   return new Promise((resolve, reject) => {
     httpClient
-      .get("/auth/refresh", { withCredentials: true })
+      .patch(`/users/update/${user._id}`, user, { withCredentials: true })
       .then((res) => {
-        console.log("REFRESH - res:", res);
+        console.log("api - updateUser - res:", res);
         resolve(res.data);
       })
       .catch((err) => {
-        console.log("api - refresh, catch err:", err);
+        console.log("api - updateUser err:", err);
         reject(err);
       });
   });

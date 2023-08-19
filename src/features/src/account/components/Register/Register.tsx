@@ -2,9 +2,10 @@ import * as React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AppButton, AppInput, InputPassword } from "../../../../../components/Common";
 import { VisiterLayout } from "../../../../../components/Layout";
-import { UserPreferences } from "../../api/types";
-import { createUser } from "../../services/createUser";
-import { useManager } from "../../../../manager";
+
+import { FeaturesRoutes, useManager } from "../../../../manager";
+import { createUser } from "../../services";
+import { UserPreferences } from "../../../../types";
 
 interface IRegisterState {
   [key: string]: string | boolean;
@@ -42,7 +43,7 @@ export function Register() {
     setState((prev) => ({ ...prev, loading: true }));
 
     const preferences: UserPreferences = {
-      language: "en",
+      language: "english",
     };
 
     const res = await createUser(state.email, state.password, preferences);
@@ -56,7 +57,7 @@ export function Register() {
           content: "Account created successfully. Thanks for registering !",
         },
       });
-      navigate("/auth/login");
+      navigate(FeaturesRoutes.login);
     } else {
       setState((prev) => ({
         ...prev,
@@ -80,7 +81,7 @@ export function Register() {
         <div>
           <h1 className="text-center text-2xl font-bold">Welcome friend !</h1>
           Already an account ?{" "}
-          <Link to="/auth/login" className="font-bold">
+          <Link to="/login" className="font-bold">
             Log in
           </Link>
         </div>
