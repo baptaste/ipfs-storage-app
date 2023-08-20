@@ -6,7 +6,7 @@ import type { IInputProps } from "./AppInput.d";
 export function AppInput(props: IInputProps) {
   const {
     type = "text",
-    placeholder,
+    placeholder = "",
     value = "",
     label = null,
     name = type,

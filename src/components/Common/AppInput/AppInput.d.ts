@@ -26,7 +26,7 @@ type InputType =
 
 export declare interface IInputProps {
   type?: InputType;
-  placeholder: string;
+  placeholder?: string;
 
   value?: string;
 

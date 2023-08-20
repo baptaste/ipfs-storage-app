@@ -6,25 +6,29 @@ import { useAuth } from "../../../auth";
 
 import { useManager } from "../../../../manager";
 
+interface ChangePasswordState {
+  oldPassword: string;
+  newPassword: string;
+  confirmedPassword: string;
+  loading: boolean;
+  error?: string;
+}
+
 export function ChangePassword() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const manager = useManager();
 
-  const [state, setState] = React.useState<any>({
-    password: "",
-    passwordConfirm: "",
-    error: "",
+  const [state, setState] = React.useState<ChangePasswordState>({
+    oldPassword: "",
+    newPassword: "",
+    confirmedPassword: "",
+    loading: false,
+    error: undefined,
   });
 
-  const [loading, setLoading] = React.useState<boolean>(false);
-
-  const handleChange = (input: string, event: React.ChangeEvent<HTMLInputElement>) => {
-    setState((state: any) => ({
-      ...state,
-      error: "",
-      [input]: event.target.value,
-    }));
+  const handleChange = (key: string, event: React.ChangeEvent<HTMLInputElement>) => {
+    setState((prev) => ({ ...prev, [key]: event.target.value }));
   };
 
   // const onChangePassword = async () => {
@@ -60,38 +64,42 @@ export function ChangePassword() {
   // };
 
   return (
-    <>
-      {state.error.length ? (
+    <div id="ChangePassword" className="w-full h-full flex flex-col gap-6">
+      <InputPassword
+        placeholder="Old password"
+        value={state.oldPassword}
+        onChange={(e) => handleChange("oldPassword", e)}
+      />
+      <InputPassword
+        placeholder="New password"
+        value={state.newPassword}
+        onChange={(e) => handleChange("newPassword", e)}
+      />
+      <InputPassword
+        placeholder="Confirm new password"
+        value={state.confirmedPassword}
+        onChange={(e) => handleChange("confirmedPassword", e)}
+      />
+      <p className="text-sm text-slate-500">
+        Your password must contains at least 8 characters. Avoid the use of common passwords.
+      </p>
+
+      <AppButton
+        title="Update master password"
+        theme="secondary"
+        onClick={() => null}
+        isLoading={state.loading}
+        disabled={
+          !state.oldPassword ||
+          !state.newPassword ||
+          !state.confirmedPassword ||
+          state.newPassword !== state.confirmedPassword
+        }
+      />
+
+      {state.error?.length ? (
         <p className="w-full text-center text-red-500 text-base mb-4">{state.error}</p>
       ) : null}
-
-      <div className="w-full h-full flex flex-col items-center justify-between">
-        <div className="w-full flex flex-col items-center ">
-          <InputPassword
-            placeholder="New password"
-            value={state.password}
-            onChange={(e) => handleChange("password", e)}
-          />
-          <InputPassword
-            placeholder="Confirm new password"
-            value={state.passwordConfirm}
-            onChange={(e) => handleChange("passwordConfirm", e)}
-          />
-          <p className="">
-            Your password must contains at least 8 characters. Avoid the use of common passwords.
-          </p>
-        </div>
-
-        <AppButton
-          title="Save new password"
-          onClick={() => null}
-          disabled={
-            !state.password || !state.passwordConfirm || state.password !== state.passwordConfirm
-          }
-          theme="secondary"
-          isLoading={loading}
-        />
-      </div>
-    </>
+    </div>
   );
 }
