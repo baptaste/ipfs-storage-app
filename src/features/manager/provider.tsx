@@ -19,26 +19,34 @@ export function ManagerProvider({ children }: ProviderProps) {
     };
   }, [state, dispatch]);
 
+  /// DEV ONLY ///
   React.useEffect(() => {
     console.log("ManagerProvider - state", state);
   }, [state]);
+  /// END DEV ONLY ///
 
   React.useEffect(() => {
-    console.log("ManagerProvider - notification", notification);
+    let timeoutID: number;
+    const animationDuration: number = 5000;
+
     if (notification) {
       if (notification.status === "success") {
         toastSuccess(notification.content);
       } else if (notification.status === "error") {
         toastError(notification.content);
       }
-      setTimeout(() => {
+      timeoutID = setTimeout(() => {
         // Reset notification
         manager.dispatch({
           type: "set_notification",
           notification: undefined,
         });
-      }, 5000);
+      }, animationDuration);
     }
+
+    return () => {
+      clearTimeout(timeoutID);
+    };
   }, [JSON.stringify(notification)]);
 
   return <ManagerContext.Provider value={manager}>{children}</ManagerContext.Provider>;

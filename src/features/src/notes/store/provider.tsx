@@ -5,32 +5,52 @@ import { fetchNotes } from "../api";
 import { initialNotesState, notesReducer } from "./reducer";
 import { NotesContext } from "./context";
 import { getNotesWithUtilityProps } from "../utils/note";
+import { useManager } from "../../../manager";
 
 interface NotesProviderProps {
   children?: React.ReactNode;
 }
 
 export function NotesProvider(props?: NotesProviderProps) {
+  const manager = useManager();
   const { loggedIn } = useAuth();
+
   const [state, dispatch] = React.useReducer(notesReducer, initialNotesState);
 
-  React.useEffect(() => {
-    console.log("NotesProvider - loggedIn:", loggedIn);
-    if (loggedIn) {
-      console.log("NotesProvider mount, call fetchNotes... loggedIn:", loggedIn);
-      dispatch({ type: "loading", loading: true });
-
-      fetchNotes()
-        .then((res) => {
-          if (res.success && res.notes) {
-            const notes = getNotesWithUtilityProps(res.notes);
-            console.log("NotesProvider - res.notes", res.notes);
-            dispatch({ type: "notes", notes });
-          }
-        })
-        .catch((error) => dispatch({ type: "error", error }))
-        .finally(() => dispatch({ type: "loading", loading: false }));
+  const initNotes = async () => {
+    dispatch({ type: "loading", loading: true });
+    try {
+      const res = await fetchNotes();
+      if (res.success && res.notes) {
+        const notes = getNotesWithUtilityProps(res.notes);
+        dispatch({ type: "notes", notes });
+      }
+    } catch (err) {
+      dispatch({ type: "error", err });
+      manager.dispatch({
+        type: "set_notification",
+        notification: {
+          status: "error",
+          content: "An error occured while initializing your notes.",
+        },
+      });
+    } finally {
+      dispatch({ type: "loading", loading: false });
     }
+  };
+
+  React.useEffect(() => {
+    let abort = false;
+
+    if (!abort && loggedIn) {
+      (async () => {
+        await initNotes();
+      })();
+    }
+
+    return () => {
+      abort = true;
+    };
   }, [loggedIn]);
 
   const notesValue = React.useMemo(() => {

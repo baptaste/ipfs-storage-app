@@ -9,8 +9,6 @@ export function CreateNoteRoute() {
   const manager = useManager();
 
   React.useEffect(() => {
-    console.log("CreateNoteRoute - dispatch set_is_creating_item");
-
     manager.dispatch({ type: "set_is_creating_item", creating: true });
   }, []);
 

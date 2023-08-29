@@ -33,9 +33,7 @@ export function NoteListRoute() {
   }, [JSON.stringify(notes), manager.feature.name]);
 
   React.useEffect(() => {
-    // console.log("••••••••• NoteListRoute - note", note);
     if (note && location.pathname === FeaturesRoutes.notes) {
-      //  console.log("••••••••• NoteListRoute - reset note item");
       dispatch({ type: FeatureType.note, note: null });
     }
   }, [JSON.stringify(note), location.pathname]);

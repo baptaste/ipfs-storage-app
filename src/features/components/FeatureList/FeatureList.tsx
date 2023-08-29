@@ -49,20 +49,30 @@ export function FeatureList(props: FeatureListProps) {
     );
   }
 
-  const handleSearchValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value.toLowerCase());
+  };
+
+  const handleSearchFocus = () => {
+    setSearchFocused(true);
+  };
+
+  const handleSearchBlur = () => {
+    if (!suggestionListVisible && !values.searchList.length) {
+      setSearchFocused(false);
+      setSearchValue("");
+    }
+  };
+
+  const handleSearchCancel = () => {
+    setSearchFocused(false);
+    setSearchValue("");
   };
 
   const dispatchOwnContextItem = (item: IFeatureItem) => {
     const stateKey = type as string;
     dispatch({ type, [stateKey]: item });
   };
-
-  React.useEffect(() => {
-    if (!searchFocused) {
-      setSearchValue("");
-    }
-  }, [searchFocused]);
 
   return (
     <div
@@ -76,14 +86,10 @@ export function FeatureList(props: FeatureListProps) {
           <SearchInput
             focused={searchFocused}
             value={searchValue}
-            onChange={handleSearchValueChange}
-            onFocus={() => setSearchFocused(true)}
-            onCancel={() => setSearchFocused(false)}
-            onBlur={() => {
-              if (!suggestionListVisible && !values.searchList.length) {
-                setSearchFocused(false);
-              }
-            }}
+            onChange={handleSearchChange}
+            onFocus={handleSearchFocus}
+            onCancel={handleSearchCancel}
+            onBlur={handleSearchBlur}
           />
         </div>
       ) : null}

@@ -32,7 +32,7 @@ export function AppRoutes() {
     }
     if (error && (error.response?.status === 401 || error.response?.status === 403)) {
       const { message } = error.response.data;
-      console.log("AppRoutes - error:", error);
+      console.error("AppRoutes - error:", error);
       if (message === "Forbidden - Token expired") {
         navigate(FeaturesRoutes.login); // user has invalid token and needs to login again
       } else if (message === "Forbidden - JsonWebTokenError: jwt must be provided") {

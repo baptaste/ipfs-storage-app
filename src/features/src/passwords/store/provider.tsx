@@ -5,32 +5,52 @@ import { fetchPasswords } from "../api";
 import { getPasswordsWithUtilityProps } from "../utils/password";
 import { PasswordsContext } from "./context";
 import { initialPasswordsState, passwordsReducer } from "./reducer";
+import { useManager } from "../../../manager";
 
 interface PasswordsProviderProps {
   children?: React.ReactNode;
 }
 
 export function PasswordsProvider(props?: PasswordsProviderProps) {
+  const manager = useManager();
   const { loggedIn } = useAuth();
+
   const [state, dispatch] = React.useReducer(passwordsReducer, initialPasswordsState);
 
-  React.useEffect(() => {
-    console.log("PasswordsProvider - loggedIn:", loggedIn);
-    if (loggedIn) {
-      console.log("PasswordsProvider mount, call fetchPasswords... loggedIn:", loggedIn);
-      dispatch({ type: "loading", loading: true });
-
-      fetchPasswords()
-        .then((res) => {
-          if (res.success && res.passwords) {
-            const passwords = getPasswordsWithUtilityProps(res.passwords);
-            console.log("PasswordsProvider - res.passwords", res.passwords);
-            dispatch({ type: "passwords", passwords });
-          }
-        })
-        .catch((error) => dispatch({ type: "error", error }))
-        .finally(() => dispatch({ type: "loading", loading: false }));
+  const initPasswords = async () => {
+    dispatch({ type: "loading", loading: true });
+    try {
+      const res = await fetchPasswords();
+      if (res.success && res.passwords) {
+        const passwords = getPasswordsWithUtilityProps(res.passwords);
+        dispatch({ type: "passwords", passwords });
+      }
+    } catch (err) {
+      dispatch({ type: "error", err });
+      manager.dispatch({
+        type: "set_notification",
+        notification: {
+          status: "error",
+          content: "An error occured while initializing your passwords.",
+        },
+      });
+    } finally {
+      dispatch({ type: "loading", loading: false });
     }
+  };
+
+  React.useEffect(() => {
+    let abort = false;
+
+    if (!abort && loggedIn) {
+      (async () => {
+        await initPasswords();
+      })();
+    }
+
+    return () => {
+      abort = true;
+    };
   }, [loggedIn]);
 
   const passwordsValue = React.useMemo(() => {

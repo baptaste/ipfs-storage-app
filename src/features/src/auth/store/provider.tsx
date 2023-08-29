@@ -3,61 +3,74 @@ import { AuthContext } from "./context";
 import { getAccessToken } from "../api";
 
 import { setHeaderToken } from "../../../../lib/axios";
-import { toastError } from "../../../../lib/toast";
 import { retrieveUserEncryptionKey } from "../../../../utils/encryption";
 import { User } from "../../../types";
+import { useManager } from "../../../manager";
 
 interface AuthProviderProps {
   children?: React.ReactNode;
 }
 
 export function AuthProvider(props?: AuthProviderProps) {
+  const manager = useManager();
+
   const [accessToken, setAccessToken] = React.useState<string | null>(null);
   const [user, setUser] = React.useState<User | null>(null);
   const [encryptionKey, setEncryptionKey] = React.useState<CryptoKey | undefined>(undefined);
   const [error, setError] = React.useState<any>(null);
   const [loading, setLoading] = React.useState<boolean>(false);
 
+  const resetStates = () => {
+    setAccessToken(null);
+    setUser(null);
+    setEncryptionKey(undefined);
+    setError(null);
+    setLoading(false);
+  };
+
+  const initAuthUser = async () => {
+    setLoading(true);
+    try {
+      const tokenRes = await getAccessToken();
+      const { success, accessToken, user } = tokenRes;
+      if (success && accessToken && user) {
+        setAccessToken(accessToken);
+        setHeaderToken(accessToken);
+        setUser(user);
+        const keyRes = await retrieveUserEncryptionKey(user._id, user.password_key);
+        if (keyRes) {
+          setEncryptionKey(keyRes);
+        }
+      }
+    } catch (err) {
+      console.error("getAccessToken err:", err);
+      manager.dispatch({
+        type: "set_notification",
+        notification: {
+          status: "error",
+          content: "An error occured while initializing your account.",
+        },
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   React.useEffect(() => {
+    let abort = false;
     setLoading(true);
 
-    getAccessToken()
-      .then((res) => {
-        setLoading(false);
-        console.log("AuthProvider - getAccessToken, res.user:", res.user);
-        console.log("AuthProvider - getAccessToken, res.accessToken:", res.accessToken);
-        if (res.success && res.user && res.accessToken) {
-          setAccessToken(res.accessToken);
-          setHeaderToken(res.accessToken);
-          setUser(res.user);
-          retrieveUserEncryptionKey(res.user._id, res.user.password_key)
-            .then((key) => setEncryptionKey(key))
-            .catch((err) => console.error(err));
-        } else {
-          setError(res.message);
-          toastError("Error");
-        }
-      })
-      .catch((err) => {
-        console.error("getAccessToken err:", err);
-        setLoading(false);
-        setError(err);
-      });
+    if (!abort) {
+      (async () => {
+        await initAuthUser();
+      })();
+    }
 
     return () => {
-      setAccessToken(null);
-      setUser(null);
-      setEncryptionKey(undefined);
-      setError(null);
-      setLoading(false);
+      abort = true;
+      resetStates();
     };
   }, []);
-
-  React.useEffect(() => {
-    if (accessToken) {
-      setHeaderToken(accessToken);
-    }
-  }, [accessToken]);
 
   const authProviderValue = React.useMemo(() => {
     const loggedIn = accessToken !== null && user !== null && encryptionKey !== undefined;

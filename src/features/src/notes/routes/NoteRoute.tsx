@@ -24,8 +24,6 @@ export function NoteRoute() {
   }
 
   React.useEffect(() => {
-    console.log("###### NoteRoute dispatch manager set_feature_item_id | note._id", note._id);
-
     manager.dispatch({ type: "set_feature_item_id", itemId: note._id });
   }, []);
 
